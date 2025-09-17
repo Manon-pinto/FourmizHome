@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>FourmizHome – Accueil</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#FAF8F0;  
+      --ink:#2B2B2B;   
+      --title:#7B1E1E; 
+      --accent:#C5A047; 
+    }
+    body{background:var(--bg);color:var(--ink)}
+    .navbar{background:var(--ink)}
+    .navbar-brand{color:#fff !important;font-weight:800;letter-spacing:.3px}
+    .nav-pills .nav-link{color:#ffffffcc;border-radius:999px}
+    .nav-pills .nav-link.active,
+    .btn-accent{background:var(--accent);color:var(--ink);border:none;font-weight:700}
+
+    footer{background:var(--ink);color:#fff;}
+    footer a{color:#ffffffb3;text-decoration:none;}
+    footer a:hover{color:#fff;}
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">FourmizHome</a>
+
+      <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div id="navMain" class="collapse navbar-collapse">
+        <a class="btn btn-accent rounded-pill px-3 ms-lg-2" href="#">Espace Hôte</a>
+      </div>
+    </div>
+  </nav>
+
+    <main class="container py-5">
+    <section class="container my-5 text-center">
+      <p class="text-muted mb-2">Bienvenue,</p>
+      <h1 class="fw-bold mb-4" style="color:var(--title)">Cher Hôte</h1>
+
+      <form id="loginForm" class="mx-auto text-start" style="max-width:420px">
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control input-pill" name="email" required autocomplete="email">
+        </div>
+
+        <div class="mb-2 pwd-wrap">
+          <label class="form-label">Mot de passe</label>
+          <input type="password" class="form-control input-pill" name="password" required autocomplete="current-password" id="pwd">
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="remember">
+            <label class="form-check-label form-hint" for="remember">
+              Rester connecté
+            </label>
+          </div>
+          <a class="small" href="/mot-de-passe-oublie">Mot de passe oublié ?</a>
+        </div>
+
+        <div class="text-center d-grid gap-2">
+          <button type="submit" class="btn btn-accent rounded-pill px-4" id="btnLogin">
+            <span class="spinner-border spinner-border-sm me-2 d-none" id="spLogin" role="status" aria-hidden="true"></span>
+            Se connecter
+          </button>
+          <div class="text-danger small text-center" id="errLogin" role="alert" aria-live="polite"></div>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="mt-5 py-4">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center">
+      <small>© 2025 FourmizHome, Inc.</small>
+
+      <div class="d-flex gap-3 justify-content-center flex-grow-1">
+        <a href="conditions.html">Conditions</a>
+        <a href="confidentialite.html">Confidentialité</a>
+        <a href="cookies.html">Cookies</a>
+      </div>
+
+      <div class="d-flex gap-3">
+        <a href="https://facebook.com" target="_blank"><i class="bi bi-facebook fs-5"></i></a>
+        <a href="https://instagram.com" target="_blank"><i class="bi bi-instagram fs-5"></i></a>
+      </div>
+    </div>
+  </footer>
+
+ <script>
+  // ====== CONFIG ======
+  const API_LOGIN = 'https://api.ton-domaine.com/auth/login'; // <-- adapte
+
+  // ====== UTILITAIRES ======
+  const show = (el) => el.classList.remove('d-none');
+  const hide = (el) => el.classList.add('d-none');
+
+  const postJSON = (url, data) =>
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+  // ====== TOGGLE MOT DE PASSE ======
+  (function pwdToggle(){
+    const pwd = document.getElementById('pwd');
+    const btn = document.getElementById('togglePwd');
+    const icon = btn.querySelector('i');
+  })();
+
+  // ====== SUBMIT (SANS BCRYPT) ======
+  (function loginFlow(){
+    const form = document.getElementById('loginForm');
+    const btn = document.getElementById('btnLogin');
+    const sp  = document.getElementById('spLogin');
+    const err = document.getElementById('errLogin');
+    const remember = document.getElementById('remember');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      err.textContent = '';
+      hide(err);
+      btn.disabled = true; show(sp);
+
+      try {
+        const fd = new FormData(form);
+        const email = (fd.get('email') || '').trim();
+        const password = fd.get('password') || '';
+
+        // validation client simple
+        if (!email || !password) {
+          throw new Error('Email et mot de passe requis.');
+        }
+        if (password.length < 8) {
+          throw new Error('Le mot de passe doit contenir au moins 8 caractères.');
+        }
+
+        // Payload envoyé TEL QUEL (en clair) — le serveur se charge du hash
+        const payload = { email, password };
+
+        const res = await postJSON(API_LOGIN, payload);
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          const msg = data?.message || data?.error || 'Connexion impossible.';
+          throw new Error(msg);
+        }
+
+        // Stockage du token selon "Rester connecté"
+        if (data?.token) {
+          (remember.checked ? localStorage : sessionStorage).setItem('fh_token', data.token);
+        }
+
+        // Redirection (adapter selon ton projet)
+        window.location.href = '/espace-hote/profil.html';
+
+      } catch (ex) {
+        err.textContent = ex.message || 'Erreur réseau.';
+        show(err);
+      } finally {
+        btn.disabled = false; hide(sp);
+      }
+    });
+  })();
+</script>
+</body>
+</html>
