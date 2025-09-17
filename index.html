@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>FourmizHome – Accueil</title>
+  <title>FourmizHome </title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
@@ -20,7 +20,6 @@
     .nav-pills .nav-link{color:#ffffffcc;border-radius:999px}
     .nav-pills .nav-link.active,
     .btn-accent{background:var(--accent);color:var(--ink);border:none;font-weight:700}
-
     footer{background:var(--ink);color:#fff;}
     footer a{color:#ffffffb3;text-decoration:none;}
     footer a:hover{color:#fff;}
@@ -46,7 +45,7 @@
     /* annonces (global) */
     .continent-block { margin-bottom: 3.5rem; }
     .continent-head { margin-bottom: 1rem; }
-    .continent-title { color: var(--title); font-weight:800; font-size:1.5rem; }
+    .continent-title { color: var(--title); font-weight:800; font-size:1.25rem; }
     .continent-desc { color:#6c757d; max-width:70ch; margin-top:.25rem; }
 
     .annonces-wrap { position: relative; padding: .5rem 0; }
@@ -168,8 +167,10 @@
   <main class="container py-5">
     <h1 class="mb-3" style="color:var(--title)">Bienvenue sur FourmizHome</h1>
 
-    <!-- conteneur global : JS génère une section par continent -->
-    <section id="continents-root" class="container my-5"></section>
+    <!-- conteneur global : JS génère une section par "groupe" (location / ecoZone / city) -->
+    <section id="continents-root" class="container my-5">
+      <div id="global-feedback" class="text-muted">Chargement des annonces…</div>
+    </section>
 
     <!-- Stats (existant) -->
     <section class="container my-5" aria-labelledby="stats-title">
@@ -219,53 +220,15 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    // Gestion voyageurs (propre & sans fermeture involontaire)
-    const countEl     = document.getElementById('count');
-    const guestsInput = document.getElementById('guests');
-    const guestLabel  = document.getElementById('guestLabel');
-    const guestBtn    = document.getElementById('guestBtn');
-
-    let n = 1;
-    const libelle = (x) => x > 1 ? `${x} voyageurs` : `1 voyageur`;
-    const render  = () => {
-      if (countEl) countEl.textContent   = n;
-      if (guestsInput) guestsInput.value     = n;
-      if (guestLabel) guestLabel.textContent= libelle(n);
-    };
-
-    const clamp = (x, min, max) => Math.max(min, Math.min(max, x));
-
-    const plusBtn = document.getElementById('plus');
-    const minusBtn = document.getElementById('minus');
-    if (plusBtn) plusBtn.addEventListener('click', (e) => { n = clamp(n + 1, 1, 50); render(); e.stopPropagation(); });
-    if (minusBtn) minusBtn.addEventListener('click', (e) => { n = clamp(n - 1, 1, 50); render(); e.stopPropagation(); });
-
-    const closeGuestsBtn = document.getElementById('closeGuests');
-    if (closeGuestsBtn) closeGuestsBtn.addEventListener('click', () => {
-      const dd = bootstrap.Dropdown.getOrCreateInstance(guestBtn);
-      dd.hide();
-    });
-
-    const firstDropdownMenu = document.querySelector('.dropdown-menu');
-    if (firstDropdownMenu) firstDropdownMenu.addEventListener('click', (e) => e.stopPropagation());
-
-    render();
-  </script>
-
-  <!--
-    SCRIPT PRINCIPAL : GENERATION DES SECTIONS / CARROUSSELS PAR CONTINENT
-    - attend GET /api/continents => [{ id, city, label, ... }, ...]
-    - attend GET /api/continents/:id/annonces => [{ id, title, short_description, image_url, url }, ...]
-  -->
-  <script>
   (async function(){
-    // ---------- CONFIG ----------
-    const API_BASE = 'http://localhost:8080'; // <-- adapte ici
-    const TIMEOUT = 12000; // ms
+    // ---------- CONFIG : adapte l'URL si besoin ----------
+    // Ton API fournie: /api/v1/ads/all (token free)
+    const API_BASE = 'http://localhost:8080/api/v1'; // <-- ADAPTE ICI si nécessaire
+    const TIMEOUT = 12000;
 
-    // ---------- HELPERS ----------
+    // ---------- UTIL ----------
     const root = document.getElementById('continents-root');
-    if (!root) return console.warn('continents-root introuvable');
+    const globalFeedback = document.getElementById('global-feedback');
 
     const escapeHtml = (s) => {
       if (s === 0) return '0';
@@ -288,105 +251,121 @@
       return 4;
     };
 
-    // ---------- Récupère la liste des continents ----------
+    // ---------- fetch all ads ----------
     try {
-      root.innerHTML = '<div class="text-muted">Chargement des continents…</div>';
-      const res = await fetchWithTimeout(`${API_BASE}/api/continents`, { headers: {'Content-Type':'application/json'} });
-      if (!res.ok) throw new Error('Impossible de récupérer la liste des continents.');
-      const continents = await res.json();
-      if (!Array.isArray(continents) || continents.length === 0) {
-        root.innerHTML = '<div class="text-muted">Aucun continent trouvé.</div>';
+      globalFeedback.textContent = 'Chargement des annonces…';
+      const res = await fetchWithTimeout(`${API_BASE}/ads/all`, { headers: { 'Content-Type':'application/json' } });
+      if (!res.ok) {
+        // debug : essaye lire le body pour savoir pourquoi
+        const txt = await res.text().catch(()=>'(no body)');
+        throw new Error(`API returned ${res.status} - ${txt}`);
+      }
+      const ads = await res.json();
+      if (!Array.isArray(ads) || ads.length === 0) {
+        globalFeedback.textContent = 'Aucune annonce trouvée.';
         return;
       }
 
-      // vide et crée une section par continent
-      root.innerHTML = '';
-      continents.forEach((c, idx) => {
-        const idOrSlug = c.id || c.slug || `cont-${idx}`;
-        const city = c.city || c.name || 'Continent';
-        const label = c.label || c.description || '';
+      // ---------- group ads by location/zone/city (flexible)
+      const groups = new Map();
 
+      const getGroupKey = (a) => {
+        // try several fields in order of likelihood
+        if (a.location && (a.location.id || a.location.name)) {
+          const id = a.location.id || a.location.name;
+          const name = a.location.name || a.location.label || String(id);
+          return { id: `loc-${id}`, name };
+        }
+        if (a.ecoZoneId) {
+          // if API provides ecoZone object use its name
+          const id = a.ecoZoneId;
+          const name = a.ecoZoneName || a.ecoZone?.name || `Zone ${id}`;
+          return { id: `eco-${id}`, name };
+        }
+        if (a.locationId) {
+          const id = a.locationId;
+          const name = a.locationName || `Lieu ${id}`;
+          return { id: `locid-${id}`, name };
+        }
+        if (a.city) {
+          return { id: `city-${a.city}`, name: a.city };
+        }
+        if (a.continent) {
+          return { id: `cont-${a.continent}`, name: a.continent };
+        }
+        // fallback: group "Toutes les annonces"
+        return { id: 'all', name: 'Toutes les annonces' };
+      };
+
+      ads.forEach(a => {
+        const { id, name } = getGroupKey(a);
+        if (!groups.has(id)) groups.set(id, { id, name, items: [] });
+        groups.get(id).items.push(a);
+      });
+
+      // ---------- render sections
+      root.innerHTML = '';
+      groups.forEach(group => {
         const section = document.createElement('section');
         section.className = 'continent-block';
+        // safe ids
+        const gid = group.id.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-_]/g,'');
         section.innerHTML = `
           <div class="continent-head">
-            <h3 class="continent-title">${escapeHtml(city)}</h3>
-            <p class="continent-desc">${escapeHtml(label)}</p>
+            <h3 class="continent-title">${escapeHtml(group.name)}</h3>
+            <p class="continent-desc">Annonces disponibles pour ${escapeHtml(group.name)}.</p>
           </div>
-          <div class="annonces-wrap" id="wrap-${idOrSlug}">
-            <div class="controles prev-wrap" id="prevwrap-${idOrSlug}" style="display:none">
+          <div class="annonces-wrap" id="wrap-${gid}">
+            <div class="controles prev-wrap" id="prevwrap-${gid}" style="display:none">
               <button class="btn btn-outline-secondary" aria-label="Précédent"><i class="bi bi-chevron-left"></i></button>
             </div>
-            <div class="controles next-wrap" id="nextwrap-${idOrSlug}" style="display:none">
+            <div class="controles next-wrap" id="nextwrap-${gid}" style="display:none">
               <button class="btn btn-outline-secondary" aria-label="Suivant"><i class="bi bi-chevron-right"></i></button>
             </div>
-            <div class="annonces-container" id="container-${idOrSlug}" aria-roledescription="carousel" aria-label="${escapeHtml(city)} annonces"></div>
-            <div class="continent-feedback" id="fb-${idOrSlug}"></div>
+            <div class="annonces-container" id="container-${gid}" aria-roledescription="carousel" aria-label="${escapeHtml(group.name)} annonces"></div>
+            <div class="continent-feedback" id="fb-${gid}"></div>
           </div>
         `;
         root.appendChild(section);
 
-        // fetch annonces for this continent (fire-and-forget per section)
-        fetchAnnoncesFor(idOrSlug, c.id || c.slug);
+        // populate container
+        const container = section.querySelector(`#container-${gid}`);
+        const fb = section.querySelector(`#fb-${gid}`);
+        container.innerHTML = '';
+        group.items.forEach(a => {
+          const url = a.url || `/annonce/${encodeURIComponent(a.id)}`;
+          const img = a.image_url || a.imageUrl || a.image || '';
+          const title = a.title || a.name || 'Sans titre';
+          const desc = a.short_description || a.description || a.desc || '';
+          const item = document.createElement('a');
+          item.className = 'annonce-card';
+          item.href = url;
+          item.setAttribute('aria-label', title);
+          item.innerHTML = `
+            ${ img ? `<img class="annonce-thumb" src="${escapeHtml(img)}" alt="${escapeHtml(title)}" loading="lazy">` 
+                   : `<div class="annonce-thumb" role="img" aria-label="${escapeHtml(title)}" style="background-color:#f1f5f8;display:flex;align-items:center;justify-content:center;font-size:28px">🐜</div>` }
+            <div class="annonce-title">${escapeHtml(title)}</div>
+            <div class="annonce-desc">${escapeHtml(desc)}</div>
+          `;
+          if (url.startsWith('http')) item.target = '_blank';
+          container.appendChild(item);
+        });
+
+        setupCarouselFor(container, section.querySelector(`#prevwrap-${gid}`), section.querySelector(`#nextwrap-${gid}`));
+        fb.textContent = '';
       });
+
+      globalFeedback.textContent = '';
 
     } catch (err) {
       console.error(err);
-      root.innerHTML = `<div class="text-danger">Erreur : ${escapeHtml(err.message || 'Problème réseau.')}</div>`;
+      const msg = err?.message || 'Problème réseau.';
+      globalFeedback.textContent = `Erreur : ${msg}`;
+      root.innerHTML = `<div class="text-danger">Erreur : ${escapeHtml(msg)}</div>`;
       return;
     }
 
-    async function fetchAnnoncesFor(idOrSlug, apiId){
-      const contId = encodeURIComponent(apiId || idOrSlug);
-      const container = document.getElementById(`container-${idOrSlug}`);
-      const fb = document.getElementById(`fb-${idOrSlug}`);
-      const prevWrap = document.getElementById(`prevwrap-${idOrSlug}`);
-      const nextWrap = document.getElementById(`nextwrap-${idOrSlug}`);
-
-      if (!container || !fb) return;
-
-      fb.textContent = 'Chargement des annonces…';
-
-      try {
-        const res = await fetchWithTimeout(`${API_BASE}/api/continents/${contId}/annonces`, { headers: {'Content-Type':'application/json'} });
-        if (!res.ok) {
-          fb.innerHTML = '<span class="text-muted">Aucune annonce disponible pour le moment.</span>';
-          return;
-        }
-        const annonces = await res.json();
-        if (!Array.isArray(annonces) || annonces.length === 0) {
-          fb.innerHTML = '<span class="text-muted">Aucune annonce trouvée.</span>';
-          return;
-        }
-
-        // build cards
-        container.innerHTML = '';
-        annonces.forEach(a => {
-          const url = a.url || `/annonce/${a.id}`;
-          const img = escapeHtml(a.image_url || '');
-          const aEl = document.createElement('a');
-          aEl.className = 'annonce-card';
-          aEl.href = url;
-          aEl.setAttribute('aria-label', a.title || 'Annonce');
-          aEl.innerHTML = `
-            ${ img ? `<img class="annonce-thumb" src="${img}" alt="${escapeHtml(a.title||'')}" loading="lazy">`
-                   : `<div class="annonce-thumb" role="img" aria-label="${escapeHtml(a.title||'')}" style="background-color:#f1f5f8"></div>` }
-            <div class="annonce-title">${escapeHtml(a.title || '')}</div>
-            <div class="annonce-desc">${escapeHtml(a.short_description || '')}</div>
-          `;
-          if (url.startsWith('http')) aEl.target = '_blank';
-          container.appendChild(aEl);
-        });
-        setupCarouselFor(container, prevWrap, nextWrap);
-
-        fb.textContent = '';
-
-      } catch (err) {
-        console.error(err);
-        fb.innerHTML = `<span class="text-danger">Erreur chargement annonces.</span>`;
-      }
-    }
-
+    // ---------- CAROUSEL helper ----------
     function setupCarouselFor(container, prevWrap, nextWrap){
       const total = container.children.length;
       if (total === 0) {
@@ -457,7 +436,7 @@
       updateControls();
     }
 
-    // optional: on global resize, trigger scroll events so each carousel recalculates controls
+    // recalc carousels on resize
     window.addEventListener('resize', () => {
       setTimeout(() => {
         document.querySelectorAll('.annonces-container').forEach((c) => c.dispatchEvent(new Event('scroll')));

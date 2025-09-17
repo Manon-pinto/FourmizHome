@@ -3,27 +3,43 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>FourmizHome – Accueil</title>
+  <title>FourmizHome – Création logement</title>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
   <style>
     :root{
       --bg:#FAF8F0;
-      --ink:#2B2B2B;  
+      --ink:#2B2B2B;
       --title:#7B1E1E;
       --accent:#C5A047;
+      --soft:#E9DFC5;
+      --radius:16px;
     }
     body{background:var(--bg);color:var(--ink)}
     .navbar{background:var(--ink)}
     .navbar-brand{color:#fff !important;font-weight:800;letter-spacing:.3px}
     .nav-pills .nav-link{color:#ffffffcc;border-radius:999px}
-    .nav-pills .nav-link.active,
-    .btn-accent{background:var(--accent);color:var(--ink);border:none;font-weight:700}
+    .nav-pills .nav-link.active, .btn-accent{background:var(--accent);color:var(--ink);border:none;font-weight:700}
 
     footer{background:var(--ink);color:#fff;}
     footer a{color:#ffffffb3;text-decoration:none;}
     footer a:hover{color:#fff;}
+
+    /* ======= ajout UI formulaire ======= */
+    .form-ghost{background:#fff;border:1px solid var(--soft);border-radius:var(--radius);padding:18px}
+    .pill{border-radius:999px}
+    .form-control, .form-select{border-color:var(--soft);border-radius:999px}
+    textarea.form-control{border-radius:14px}
+    .amenities{border:1px solid var(--soft);border-radius:14px;overflow:auto;max-height:340px;background:#fff}
+    .amenity-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:10px 12px}
+    .amenity-row:nth-child(odd){background:#fbf9f2}
+    .qty{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--soft);border-radius:999px;padding:4px 8px}
+    .qty button{border:none;background:transparent;padding:2px 6px}
+    .qty button:hover{background:var(--soft)}
+    .btn-save{background:var(--accent);color:#2B2B2B;border:none;border-radius:999px;padding:.6rem 1.4rem;font-weight:700}
+    .badge-cat{background:var(--soft);color:#7B1E1E}
   </style>
 </head>
 <body>
@@ -31,33 +47,83 @@
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
       <a class="navbar-brand" href="index.html">FourmizHome</a>
-
       <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
         <span class="navbar-toggler-icon"></span>
       </button>
-
       <div id="navMain" class="collapse navbar-collapse">
-        <!-- centre navbar à ajouter plus tard -->
-        <a class="btn btn-accent rounded-pill px-3 ms-lg-2" href="#">Espace Hôte</a>
+        <a class="btn btn-accent rounded-pill px-3 ms-lg-auto" href="#">Espace Hôte</a>
       </div>
     </div>
   </nav>
 
-  <main class="container py-5">
-    <h1 class="mb-3" style="color:var(--title)">Bienvenue sur FourmizHome</h1>
-    <p> </p>
+  <main class="container py-5" id="app">
+    <header class="mb-4 text-center">
+      <div class="text-uppercase fw-semibold" style="opacity:.7">Création du logement</div>
+      <h1 class="mb-0" style="color:var(--title);font-weight:800">Idéal</h1>
+    </header>
+
+    <form id="housingForm" class="row g-4">
+      <div class="col-12">
+        <label class="form-label">Titre</label>
+        <input class="form-control" name="title" placeholder="Ex. Suite Royale de la Reine" required>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label">Description</label>
+        <textarea class="form-control" name="description" rows="4" placeholder="Décris ton nid idéal pour tes invité·e·s fourmis…"></textarea>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Prix (par nuit)</label>
+        <div class="input-group">
+          <span class="input-group-text pill">€</span>
+          <input type="number" step="0.01" min="0" class="form-control" name="price" placeholder="50.00" required>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Devise</label>
+        <select class="form-select" name="currency">
+          <option value="EUR">EUR</option>
+          <option value="USD">USD</option>
+          <option value="GBP">GBP</option>
+        </select>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label d-flex align-items-center gap-2">
+          Détails
+          <span class="badge badge-cat rounded-pill">Fourmilière & équipements</span>
+        </label>
+
+        <!-- tableau des “chambres”/options -->
+        <div class="amenities" id="amenitiesList" aria-live="polite">
+          <!-- lignes injectées en JS -->
+        </div>
+        <div class="small mt-2" style="opacity:.7">
+          Astuce : clique sur + / − pour définir la quantité souhaitée (seules les valeurs &gt; 0 seront envoyées).
+        </div>
+      </div>
+
+      <div class="col-12 text-center">
+        <button class="btn btn-save" type="submit">
+          <i class="bi bi-check2-circle me-1"></i> Valider
+        </button>
+      </div>
+    </form>
+
+    <!-- aperçu JSON pour debug -->
+    <pre id="debug" class="form-ghost mt-4 d-none"></pre>
   </main>
 
   <footer class="mt-5 py-4">
     <div class="container d-flex flex-wrap justify-content-between align-items-center">
       <small>© 2025 FourmizHome, Inc.</small>
-
       <div class="d-flex gap-3 justify-content-center flex-grow-1">
         <a href="conditions.html">Conditions</a>
         <a href="confidentialite.html">Confidentialité</a>
         <a href="cookies.html">Cookies</a>
       </div>
-
       <div class="d-flex gap-3">
         <a href="https://facebook.com" target="_blank"><i class="bi bi-facebook fs-5"></i></a>
         <a href="https://instagram.com" target="_blank"><i class="bi bi-instagram fs-5"></i></a>
@@ -66,5 +132,98 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // ----------- CONFIG -----------
+    const API_URL = '/api/biens_chambre.php?actif=1'; // ← ton endpoint réel
+    const state = { amenities: [], quantities: {} };
+
+    // ----------- RENDER -----------
+    function renderAmenities(list){
+      const box = document.getElementById('amenitiesList');
+      box.innerHTML = '';
+      list.forEach(item => {
+        const id = item.id || item.slug;
+        state.quantities[id] = state.quantities[id] ?? 0;
+
+        const row = document.createElement('div');
+        row.className = 'amenity-row';
+
+        row.innerHTML = `
+          <div>
+            <div class="fw-semibold">${item.label || item.name}</div>
+            <div class="small text-muted text-capitalize">${item.categorie || item.category || ''}</div>
+          </div>
+          <div class="qty" data-id="${id}">
+            <button type="button" class="btn-minus" aria-label="Diminuer ${item.label || item.name}">
+              <i class="bi bi-dash"></i>
+            </button>
+            <span class="value">${state.quantities[id]}</span>
+            <button type="button" class="btn-plus" aria-label="Augmenter ${item.label || item.name}">
+              <i class="bi bi-plus"></i>
+            </button>
+          </div>
+        `;
+        box.appendChild(row);
+      });
+
+      // délégation d'événements
+      box.addEventListener('click', (e)=>{
+        const wrap = e.target.closest('.qty');
+        if(!wrap) return;
+        const id = wrap.dataset.id;
+        if(e.target.closest('.btn-plus')){
+          state.quantities[id] = (state.quantities[id] ?? 0) + 1;
+        }
+        if(e.target.closest('.btn-minus')){
+          state.quantities[id] = Math.max(0, (state.quantities[id] ?? 0) - 1);
+        }
+        wrap.querySelector('.value').textContent = state.quantities[id];
+      }, { passive:true });
+    }
+
+    // ----------- LOAD depuis la BDD -----------
+    async function loadAmenities(){
+      try{
+        const r = await fetch(API_URL, { headers:{'Accept':'application/json'} });
+        if(!r.ok) throw new Error('API non disponible');
+        const data = await r.json();
+        state.amenities = Array.isArray(data) ? data : [];
+      }catch(err){
+        console.error('Erreur API:', err);
+        state.amenities = [];
+      }
+      renderAmenities(state.amenities);
+    }
+
+    // ----------- SUBMIT -----------
+    document.getElementById('housingForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+
+      const form = e.currentTarget;
+      const payload = {
+        title: form.title.value.trim(),
+        description: form.description.value.trim(),
+        price: Number(form.price.value),
+        currency: form.currency.value,
+        amenities: Object.entries(state.quantities)
+          .filter(([,qty]) => qty > 0)
+          .map(([id, qty]) => ({ id, qty }))
+      };
+
+      const dbg = document.getElementById('debug');
+      dbg.textContent = JSON.stringify(payload, null, 2);
+      dbg.classList.remove('d-none');
+
+      const btn = form.querySelector('button[type="submit"]');
+      const old = btn.innerHTML;
+      btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Envoi…';
+      setTimeout(()=>{
+        btn.disabled = false; btn.innerHTML = old;
+        alert('Formulaire prêt à être envoyé (voir JSON en bas). Branche ton endpoint POST pour l’enregistrer.');
+      }, 600);
+    });
+
+    loadAmenities();
+  </script>
 </body>
 </html>
