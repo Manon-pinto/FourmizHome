@@ -1,261 +1,381 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>FourmizHome</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>FourmizHome</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-  <style>
-    :root{
-      --bg:#FAF8F0;
-      --ink:#2B2B2B;
-      --muted:#6c757d;
-      --accent:#7B8FB0;
-      --card-bg:#fff;
-      --pill:#cfdbea;
-    }
-    body { background: var(--bg); color: var(--ink); font-family: Inter, "Helvetica Neue", Arial, sans-serif; }
-    .hero { text-align:center; margin-top:1.5rem; margin-bottom:2.5rem; }
-    .hero .welcome { color:var(--muted); margin-bottom:.25rem; font-weight:600; }
-    .hero h1 { font-size:clamp(2rem,4vw,3.2rem); margin-bottom:1rem; color:var(--accent); font-weight:800; }
+    <style>
+        :root {
+            --bg: #FAF8F0;
+            --ink: #2B2B2B;
+            --muted: #6c757d;
+            --accent: #7B8FB0;
+            --card-bg: #fff;
+            --pill: #cfdbea;
+        }
 
-    .smiley-wrap { width:140px; height:140px; margin:0 auto .75rem; display:grid; place-items:center; border-radius:50%;
-      background: linear-gradient(180deg, rgba(123,143,176,0.12), rgba(123,143,176,0.06));
-      box-shadow:0 6px 18px rgba(27,45,66,0.06); border:6px solid rgba(255,255,255,0.2); }
+        body {
+            background: var(--bg);
+            color: var(--ink);
+            font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+        }
 
-    .host-name { font-weight:700; color:var(--accent); margin-bottom:1.25rem; font-size:1.05rem; }
+        .hero {
+            text-align: center;
+            margin-top: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
 
-    .annonces-card { background:var(--card-bg); border-radius:12px; padding:1.25rem; border:1px solid #e6eaef; box-shadow:0 6px 18px rgba(0,0,0,.03); }
-    .annonce-row { display:grid; grid-template-columns:72px 1fr 140px; gap:1rem; align-items:center; padding:.75rem 0; border-bottom:1px dashed #f0f3f6; }
-    .annonce-row:last-child { border-bottom:none; }
-    .thumb { width:64px; height:64px; border-radius:12px; background:#f1f5f8 center/cover no-repeat; display:flex; align-items:center; justify-content:center; color:#98a9bf; font-size:1.25rem; }
-    .annonce-title { font-weight:700; color:var(--accent); margin-bottom:.25rem; }
-    .annonce-desc { color:var(--muted); font-size:.9rem; line-height:1.3; }
+        .hero .welcome {
+            color: var(--muted);
+            margin-bottom: .25rem;
+            font-weight: 600;
+        }
 
-    .actions { display:flex; flex-direction:column; gap:.5rem; align-items:flex-end; }
-    .btn-pill { border-radius:999px; padding:.35rem .9rem; font-size:.85rem; }
-    .btn-mod { background:var(--pill); color:var(--accent); border:0; }
-    .btn-del { background:transparent; border:1px solid var(--pill); color:var(--accent); }
+        .hero h1 {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            margin-bottom: 1rem;
+            color: var(--accent);
+            font-weight: 800;
+        }
 
-    .profile-container { max-width:980px; margin:0 auto; padding:1rem; }
+        .smiley-wrap {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto .75rem;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: linear-gradient(180deg, rgba(123, 143, 176, 0.12), rgba(123, 143, 176, 0.06));
+            box-shadow: 0 6px 18px rgba(27, 45, 66, 0.06);
+            border: 6px solid rgba(255, 255, 255, 0.2);
+        }
 
-    footer{background:#2B2B2B;color:#fff;}
-    footer a{color:#ffffffb3;text-decoration:none;}
-    footer a:hover{color:#fff;}
+        .host-name {
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1.25rem;
+            font-size: 1.05rem;
+        }
 
-  </style>
+        .annonces-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.25rem;
+            border: 1px solid #e6eaef;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .03);
+        }
+
+        .annonce-row {
+            display: grid;
+            grid-template-columns:72px 1fr 140px;
+            gap: 1rem;
+            align-items: center;
+            padding: .75rem 0;
+            border-bottom: 1px dashed #f0f3f6;
+        }
+
+        .annonce-row:last-child {
+            border-bottom: none;
+        }
+
+        .thumb {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            background: #f1f5f8 center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #98a9bf;
+            font-size: 1.25rem;
+        }
+
+        .annonce-title {
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: .25rem;
+        }
+
+        .annonce-desc {
+            color: var(--muted);
+            font-size: .9rem;
+            line-height: 1.3;
+        }
+
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+            align-items: flex-end;
+        }
+
+        .btn-pill {
+            border-radius: 999px;
+            padding: .35rem .9rem;
+            font-size: .85rem;
+        }
+
+        .btn-mod {
+            background: var(--pill);
+            color: var(--accent);
+            border: 0;
+        }
+
+        .btn-del {
+            background: transparent;
+            border: 1px solid var(--pill);
+            color: var(--accent);
+        }
+
+        .profile-container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        footer {
+            background: #2B2B2B;
+            color: #fff;
+        }
+
+        footer a {
+            color: #ffffffb3;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #fff;
+        }
+
+    </style>
 </head>
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background:#2B2B2B">
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background:#2B2B2B">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
-          <img src="assets/logo.png" alt="" height="52" class="d-inline-block align-text-top">
-          git status
-<span class="fs-3 lh-1">FourmizHome</span>
+            <img src="assets/logo.png" alt="" height="52" class="d-inline-block align-text-top">
+            <span class="fs-3 lh-1">FourmizHome</span>
         </a>
-      <div class="ms-auto"><a class="btn btn-accent rounded-pill px-3" href="index.html">Accueil</a></div>
+        <div class="ms-auto"><a class="btn btn-accent rounded-pill px-3" href="index.html">Accueil</a></div>
     </div>
-  </nav>
+</nav>
 
-  <main class="profile-container py-5">
+<main class="profile-container py-5">
 
     <header class="hero">
-      <p class="welcome">Bienvenue,</p>
-      <h1>Cher Hôte</h1>
+        <p class="welcome">Bienvenue,</p>
+        <h1>Cher Hôte</h1>
 
-      <!-- SMILEY SVG wrapper -->
-      <div class="smiley-wrap" role="img" aria-label="Avatar souriant" id="avatarWrap">
-        <svg id="avatarSvg" width="90" height="90" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="60" cy="60" r="40" fill="#c6d2e3" />
-          <circle cx="60" cy="60" r="30" fill="none" stroke="#ffffffaa" stroke-width="2.5" />
-          <circle cx="50" cy="55" r="3" fill="#ffffff" />
-          <circle cx="70" cy="55" r="3" fill="#ffffff" />
-          <path d="M46 70 Q60 80 74 70" stroke="#ffffff" stroke-width="3" stroke-linecap="round" fill="none" />
-        </svg>
-      </div>
+        <!-- SMILEY SVG wrapper -->
+        <div class="smiley-wrap" role="img" aria-label="Avatar souriant" id="avatarWrap">
+            <svg id="avatarSvg" width="90" height="90" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"
+                 aria-hidden="true">
+                <circle cx="60" cy="60" r="40" fill="#c6d2e3"/>
+                <circle cx="60" cy="60" r="30" fill="none" stroke="#ffffffaa" stroke-width="2.5"/>
+                <circle cx="50" cy="55" r="3" fill="#ffffff"/>
+                <circle cx="70" cy="55" r="3" fill="#ffffff"/>
+                <path d="M46 70 Q60 80 74 70" stroke="#ffffff" stroke-width="3" stroke-linecap="round" fill="none"/>
+            </svg>
+        </div>
 
-      <!-- now shows first name + last name -->
-      <div class="host-name" id="hostName">Chargement...</div>
+        <!-- now shows first name + last name -->
+        <div class="host-name" id="hostName">Chargement...</div>
     </header>
 
     <!-- Vos annonces -->
     <section class="annonces-card" aria-labelledby="annonces-title">
-      <h2 id="annonces-title" class="text-center fw-bold mb-3" style="color:var(--accent)">Vos Annonces</h2>
+        <h2 id="annonces-title" class="text-center fw-bold mb-3" style="color:var(--accent)">Vos Annonces</h2>
 
-      <div id="annonces-feedback" class="text-center text-muted mb-2">Chargement des annonces…</div>
-      <div id="annoncesList" class="list-group"></div>
+        <div id="annonces-feedback" class="text-center text-muted mb-2">Chargement des annonces…</div>
+        <div id="annoncesList" class="list-group"></div>
     </section>
 
     <!-- Modal édition (idem) -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <form id="editForm" class="p-3">
-            <div class="modal-header">
-              <h5 class="modal-title">Modifier l'annonce</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="editForm" class="p-3">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modifier l'annonce</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="editId">
+                        <div class="mb-3">
+                            <label class="form-label">Titre</label>
+                            <input class="form-control" id="editTitle" required/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="editDesc" rows="4" required></textarea>
+                        </div>
+                        <div id="editError" class="text-danger small d-none"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary btn-sm" id="saveEditBtn">Enregistrer</button>
+                    </div>
+                </form>
             </div>
-            <div class="modal-body">
-              <input type="hidden" id="editId">
-              <div class="mb-3">
-                <label class="form-label">Titre</label>
-                <input class="form-control" id="editTitle" required />
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Description</label>
-                <textarea class="form-control" id="editDesc" rows="4" required></textarea>
-              </div>
-              <div id="editError" class="text-danger small d-none"></div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Annuler</button>
-              <button type="submit" class="btn btn-primary btn-sm" id="saveEditBtn">Enregistrer</button>
-            </div>
-          </form>
         </div>
-      </div>
     </div>
 
-  </main>
+</main>
 
-  <footer class="mt-5 py-4">
+<footer class="mt-5 py-4">
     <div class="container d-flex flex-wrap justify-content-between align-items-center">
-      <small>© 2025 FourmizHome, Inc.</small>
-      <div class="d-flex gap-3 justify-content-center flex-grow-1">
-        <a href="conditions.html">Conditions</a>
-        <a href="confidentialite.html">Confidentialité</a>
-        <a href="cookies.html">Cookies</a>
-      </div>
-      <div class="d-flex gap-3">
-        <a href="https://facebook.com" target="_blank"><i class="bi bi-facebook fs-5"></i></a>
-        <a href="https://instagram.com" target="_blank"><i class="bi bi-instagram fs-5"></i></a>
-      </div>
+        <small>© 2025 FourmizHome, Inc.</small>
+        <div class="d-flex gap-3 justify-content-center flex-grow-1">
+            <a href="conditions.html">Conditions</a>
+            <a href="confidentialite.html">Confidentialité</a>
+            <a href="cookies.html">Cookies</a>
+        </div>
+        <div class="d-flex gap-3">
+            <a href="https://facebook.com" target="_blank"><i class="bi bi-facebook fs-5"></i></a>
+            <a href="https://instagram.com" target="_blank"><i class="bi bi-instagram fs-5"></i></a>
+        </div>
     </div>
-  </footer>
+</footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- SCRIPT : récupération API + affichage prénom + nom sous le smiley -->
-  <script>
-  (function(){
-    // ---------- CONFIG - adapte ----------
-    const API_BASE = 'https://api.ton-domaine.com'; // <-- mets l'URL de ton API
-    const HOST_ID = null; // si null -> /api/hotes/me ; sinon -> /api/hotes/{HOST_ID}
-    const TIMEOUT = 12000; // ms
+<!-- SCRIPT : récupération API + affichage prénom + nom sous le smiley -->
+<script>
+    (function () {
+        // ---------- CONFIG - adapte ----------
+        function parseJwt (token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
 
-    // ---------- SELECTEURS ----------
-    const hostNameEl = document.getElementById('hostName');
-    const avatarWrap = document.getElementById('avatarWrap');
-    const annoncesList = document.getElementById('annoncesList');
-    const annoncesFeedback = document.getElementById('annonces-feedback');
-
-    const getAuthHeaders = () => {
-      const token = localStorage.getItem('fh_token') || sessionStorage.getItem('fh_token');
-      return token ? { 'Authorization': 'Bearer ' + token } : {};
-    };
-
-    const fetchWithTimeout = (url, opts={}) => {
-      const controller = new AbortController();
-      const id = setTimeout(()=> controller.abort(), TIMEOUT);
-      return fetch(url, {...opts, signal: controller.signal}).finally(()=> clearTimeout(id));
-    };
-
-    const escapeHtml = (s) => {
-      if (s === 0) return '0';
-      if (!s) return '';
-      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-    };
-
-    // ---------- INIT ----------
-    (async function init(){
-      try {
-        const profile = await loadHostProfile();
-        await loadAnnonces(profile && profile.id ? profile.id : null);
-      } catch (err) {
-        console.error(err);
-        hostNameEl.textContent = 'Hôte';
-        annoncesFeedback.textContent = 'Erreur de chargement.';
-      }
-    })();
-
-    // ---------- load host profile, return profile object ----------
-    async function loadHostProfile(){
-      hostNameEl.textContent = 'Chargement...';
-      try {
-        const endpoint = HOST_ID ? `${API_BASE}/api/hotes/${encodeURIComponent(HOST_ID)}` : `${API_BASE}/api/hotes/me`;
-        const res = await fetchWithTimeout(endpoint, { headers: { 'Content-Type':'application/json', ...getAuthHeaders() } });
-        if (!res.ok) {
-          hostNameEl.textContent = 'Hôte';
-          return null;
+            return JSON.parse(jsonPayload);
         }
-        const data = await res.json();
+        const decodedToken = parseJwt(localStorage.getItem('fh_token'));
+        console.log(decodedToken);
+        const API_BASE = `http://localhost:3000/api/v1/ads/user/${decodedToken.userId}`; // <-- mets l'URL de ton API
+        const TIMEOUT = 12000; // ms
 
-        // Compose prénom + nom en essayant plusieurs clés courantes
-        const first = data.first_name || data.prenom || data.given_name || data.firstName || '';
-        const last  = data.last_name  || data.nom    || data.family_name || data.lastName || '';
+        // ---------- SELECTEURS ----------
+        const hostNameEl = document.getElementById('hostName');
+        const avatarWrap = document.getElementById('avatarWrap');
+        const annoncesList = document.getElementById('annoncesList');
+        const annoncesFeedback = document.getElementById('annonces-feedback');
 
-        let fullname = `${first} ${last}`.trim();
-        if (!fullname) {
-          fullname = data.display_name || data.name || data.username;
-        }
-        hostNameEl.textContent = fullname;
+        const getAuthHeaders = () => {
+            const token = localStorage.getItem('fh_token') || sessionStorage.getItem('fh_token');
+            return token ? {'Authorization': 'Bearer ' + token} : {};
+        };
 
-        return data;
-      } catch (err) {
-        console.error('profile load error', err);
-        hostNameEl.textContent = 'Hôte';
-        return null;
-      }
-    }
+        const fetchWithTimeout = (url, opts = {}) => {
+            const controller = new AbortController();
+            const id = setTimeout(() => controller.abort(), TIMEOUT);
+            return fetch(url, {...opts, signal: controller.signal}).finally(() => clearTimeout(id));
+        };
 
-    // ---------- load annonces for hostId (or me) ----------
-    async function loadAnnonces(hostId){
-      annoncesList.innerHTML = '';
-      annoncesFeedback.textContent = 'Chargement des annonces…';
-      try {
-        const endpoint = hostId ? `${API_BASE}/api/hotes/${encodeURIComponent(hostId)}/annonces` : `${API_BASE}/api/hotes/me/annonces`;
-        const res = await fetchWithTimeout(endpoint, { headers: { 'Content-Type':'application/json', ...getAuthHeaders() } });
-        if (!res.ok) {
-          annoncesFeedback.textContent = 'Impossible de récupérer les annonces.';
-          return;
-        }
-        const data = await res.json();
-        if (!Array.isArray(data) || data.length === 0) {
-          annoncesFeedback.textContent = 'Aucune annonce trouvée.';
-          return;
+        const escapeHtml = (s) => {
+            if (s === 0) return '0';
+            if (!s) return '';
+            return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        };
+
+        // ---------- INIT ----------
+        (async function init() {
+            try {
+                const profile = await loadHostProfile();
+                await loadAnnonces(profile && profile.id ? profile.id : null);
+            } catch (err) {
+                console.error(err);
+                hostNameEl.textContent = 'Hôte';
+                annoncesFeedback.textContent = 'Erreur de chargement.';
+            }
+        })();
+
+        // ---------- load host profile, return profile object ----------
+        async function loadHostProfile() {
+            hostNameEl.textContent = 'Chargement...';
+            try {
+                const endpoint = HOST_ID ? `${API_BASE}/api/hotes/${encodeURIComponent(HOST_ID)}` : `${API_BASE}/api/hotes/me`;
+                const res = await fetchWithTimeout(endpoint, {headers: {'Content-Type': 'application/json', ...getAuthHeaders()}});
+                if (!res.ok) {
+                    hostNameEl.textContent = 'Hôte';
+                    return null;
+                }
+                const data = await res.json();
+
+                // Compose prénom + nom en essayant plusieurs clés courantes
+                const first = data.first_name || data.prenom || data.given_name || data.firstName || '';
+                const last = data.last_name || data.nom || data.family_name || data.lastName || '';
+
+                let fullname = `${first} ${last}`.trim();
+                if (!fullname) {
+                    fullname = data.display_name || data.name || data.username;
+                }
+                hostNameEl.textContent = fullname;
+
+                return data;
+            } catch (err) {
+                console.error('profile load error', err);
+                hostNameEl.textContent = 'Hôte';
+                return null;
+            }
         }
 
-        data.forEach(a => {
-          const row = makeAnnonceRow(a);
-          annoncesList.appendChild(row);
-        });
+        // ---------- load annonces for hostId (or me) ----------
+        async function loadAnnonces(hostId) {
+            annoncesList.innerHTML = '';
+            annoncesFeedback.textContent = 'Chargement des annonces…';
+            const postJSON = (url, data) =>
+                fetch(url, {
+                    method: 'GET',
+                    headers: {'Authorization': localStorage.getItem('fh_token')},
+                });
+            try {
+                const res = await postJSON(API_BASE);
+                if (!res.ok) {
+                    annoncesFeedback.textContent = 'Impossible de récupérer les annonces.';
+                    return;
+                }
+                const data = await res.json();
+                if (!Array.isArray(data.ads) || data.ads.length === 0) {
+                    annoncesFeedback.textContent = 'Aucune annonce trouvée.';
+                    return;
+                }
 
-        annoncesFeedback.textContent = '';
-      } catch (err) {
-        console.error(err);
-        annoncesFeedback.textContent = 'Erreur réseau lors du chargement.';
-      }
-    }
+                data.ads.forEach(a => {
+                    const row = makeAnnonceRow(a);
+                    annoncesList.appendChild(row);
+                });
 
-    // ---------- create DOM row ----------
-    function makeAnnonceRow(a){
-      const row = document.createElement('div');
-      row.className = 'annonce-row';
-      row.dataset.id = a.id;
+                annoncesFeedback.textContent = '';
+            } catch (err) {
+                console.error(err);
+                annoncesFeedback.textContent = 'Erreur réseau lors du chargement.';
+            }
+        }
 
-      const thumbHtml = a.image_url
-        ? `<div class="thumb" style="background-image:url('${escapeHtml(a.image_url)}')"></div>`
-        : `<div class="thumb">📷</div>`;
+        // ---------- create DOM row ----------
+        function makeAnnonceRow(a) {
+            const row = document.createElement('div');
+            row.className = 'annonce-row';
+            row.dataset.id = a.id;
 
-      row.innerHTML = `
+            const thumbHtml = a.image_url
+                ? `<div class="thumb" style="background-image:url('${escapeHtml(a.image_url)}')"></div>`
+                : `<div class="thumb">📷</div>`;
+
+            row.innerHTML = `
         ${thumbHtml}
         <div>
-          <div class="annonce-title">${escapeHtml(a.title || 'Sans titre')}</div>
-          <div class="annonce-desc">${escapeHtml(a.short_description || '')}</div>
+          <div class="annonce-title">${escapeHtml(a.titre || 'Sans titre')}</div>
+          <div class="annonce-desc">${escapeHtml(a.description || '')}</div>
         </div>
         <div class="actions">
           <button class="btn btn-mod btn-pill" data-action="edit">Modifier</button>
@@ -263,22 +383,25 @@
         </div>
       `;
 
-      // events
-      const btnEdit = row.querySelector('[data-action="edit"]');
-      const btnDel = row.querySelector('[data-action="delete"]');
+            // events
+            const btnEdit = row.querySelector('[data-action="edit"]');
+            const btnDel = row.querySelector('[data-action="delete"]');
 
-      btnEdit.addEventListener('click', () => openEditModal(a));
-      btnDel.addEventListener('click', () => handleDelete(a, row));
+            btnEdit.addEventListener('click', () => openEditModal(a));
+            btnDel.addEventListener('click', () => handleDelete(a, row));
 
-      return row;
-    }
+            return row;
+        }
 
-    // small helper to expose reload in console
-    window.__FH_reloadProfile = async () => {
-      await (async ()=>{ await loadHostProfile(); await loadAnnonces(null); })();
-    };
+        // small helper to expose reload in console
+        window.__FH_reloadProfile = async () => {
+            await (async () => {
+                await loadHostProfile();
+                await loadAnnonces(null);
+            })();
+        };
 
-  })();
-  </script>
+    })();
+</script>
 </body>
 </html>

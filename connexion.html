@@ -53,7 +53,7 @@
       <form id="loginForm" class="mx-auto text-start" style="max-width:420px">
         <div class="mb-3">
           <label class="form-label">Email</label>
-          <input type="email" class="form-control input-pill" name="email" required autocomplete="email">
+          <input id="email" type="email" class="form-control input-pill" name="email" required autocomplete="email">
         </div>
 
         <div class="mb-2 pwd-wrap">
@@ -105,7 +105,6 @@
   const show = (el) => el.classList.remove('d-none');
   const hide = (el) => el.classList.add('d-none');
 
-
   // ====== TOGGLE MOT DE PASSE (œil)
   (function pwdToggle(){
     const pwd  = document.getElementById('pwd');
@@ -132,16 +131,17 @@
   const btn = document.getElementById('btnLogin');
   const sp  = document.getElementById('spLogin');
   const err = document.getElementById('errLogin');
+  const emailInput = document.getElementById('email');
 
   btn.disabled = true; sp.classList.remove('d-none'); err.textContent = '';
 
     const res = await fetch(API_LOGIN, {
       method: 'POST',
-
-      body : {
-        "email": "",
-        "password": ""
-      }
+      headers: { 'Content-Type': 'application/json' },
+      body : JSON.stringify( {
+        "email": emailInput.value,
+        "password": pwd.value
+      })
     });
 
     const data = await res.json().catch(()=> ({}));
@@ -152,7 +152,7 @@
       (remember ? localStorage : sessionStorage).setItem('fh_token', data.token);
     }
 
-    window.location.href = '/espace-hote/profil.html';
+    window.location.href = '/profil.html';
 });
 
   // ====== Helper pour appels protégés avec token stocké 

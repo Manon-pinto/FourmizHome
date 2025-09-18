@@ -218,7 +218,7 @@
   (async function(){
     // ---------- CONFIG : adapte l'URL si besoin ----------
     // Ton API fournie: /api/v1/ads/all (token free)
-    const API_BASE = 'http://localhost:8080/api/v1'; // <-- ADAPTE ICI si nécessaire
+    const API_BASE = 'http://localhost:300/api/v1/ads'; // <-- ADAPTE ICI si nécessaire
     const TIMEOUT = 12000;
 
     // ---------- UTIL ----------
@@ -249,7 +249,7 @@
     // ---------- fetch all ads ----------
     try {
       globalFeedback.textContent = 'Chargement des annonces…';
-      const res = await fetchWithTimeout(`${API_BASE}/ads/all`, { headers: { 'Content-Type':'application/json' } });
+      const res = await fetchWithTimeout(API_BASE);
       if (!res.ok) {
         // debug : essaye lire le body pour savoir pourquoi
         const txt = await res.text().catch(()=>'(no body)');
