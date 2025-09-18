@@ -68,7 +68,6 @@
               Rester connecté
             </label>
           </div>
-          <a class="small" href="/mot-de-passe-oublie">Mot de passe oublié ?</a>
         </div>
 
         <div class="text-center d-grid gap-2">
@@ -100,81 +99,70 @@
   </footer>
 
  <script>
-  // ====== CONFIG ======
-  const API_LOGIN = 'https://api.ton-domaine.com/auth/login'; // <-- adapte
+  const API_LOGIN = 'http://localhost:3000/api/v1/auth/login';  
 
-  // ====== UTILITAIRES ======
+  // ====== UTILITAIRES (gestion de laffichage plus simple) ======
   const show = (el) => el.classList.remove('d-none');
   const hide = (el) => el.classList.add('d-none');
 
-  const postJSON = (url, data) =>
-    fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
 
-  // ====== TOGGLE MOT DE PASSE ======
+  // ====== TOGGLE MOT DE PASSE (œil)
   (function pwdToggle(){
-    const pwd = document.getElementById('pwd');
-    const btn = document.getElementById('togglePwd');
-    const icon = btn.querySelector('i');
+    const pwd  = document.getElementById('pwd');
+    const wrap = pwd.closest('.pwd-wrap') || pwd.parentElement;
+    const btn  = document.createElement('button');
+    btn.type = 'button';
+    btn.id   = 'togglePwd';
+    btn.className = 'btn btn-sm btn-outline-secondary position-absolute end-0 me-2 mt-1';
+    btn.style.transform = 'translateY(6px)';
+    btn.innerHTML = '<i class="bi bi-eye"></i>';
+    wrap.style.position = 'relative';
+    wrap.appendChild(btn);
+    btn.addEventListener('click', ()=>{
+      const show = pwd.type === 'password';
+      pwd.type = show ? 'text' : 'password';
+      btn.innerHTML = show ? '<i class="bi bi-eye-slash"></i>' : '<i class="bi bi-eye"></i>';
+      pwd.focus();
+    });
   })();
 
-  // ====== SUBMIT (SANS BCRYPT) ======
-  (function loginFlow(){
-    const form = document.getElementById('loginForm');
-    const btn = document.getElementById('btnLogin');
-    const sp  = document.getElementById('spLogin');
-    const err = document.getElementById('errLogin');
-    const remember = document.getElementById('remember');
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      err.textContent = '';
-      hide(err);
-      btn.disabled = true; show(sp);
+  const btn = document.getElementById('btnLogin');
+  const sp  = document.getElementById('spLogin');
+  const err = document.getElementById('errLogin');
 
-      try {
-        const fd = new FormData(form);
-        const email = (fd.get('email') || '').trim();
-        const password = fd.get('password') || '';
+  btn.disabled = true; sp.classList.remove('d-none'); err.textContent = '';
 
-        // validation client simple
-        if (!email || !password) {
-          throw new Error('Email et mot de passe requis.');
-        }
-        if (password.length < 8) {
-          throw new Error('Le mot de passe doit contenir au moins 8 caractères.');
-        }
+    const res = await fetch(API_LOGIN, {
+      method: 'POST',
 
-        // Payload envoyé TEL QUEL (en clair) — le serveur se charge du hash
-        const payload = { email, password };
-
-        const res = await postJSON(API_LOGIN, payload);
-        const data = await res.json().catch(() => ({}));
-
-        if (!res.ok) {
-          const msg = data?.message || data?.error || 'Connexion impossible.';
-          throw new Error(msg);
-        }
-
-        // Stockage du token selon "Rester connecté"
-        if (data?.token) {
-          (remember.checked ? localStorage : sessionStorage).setItem('fh_token', data.token);
-        }
-
-        // Redirection (adapter selon ton projet)
-        window.location.href = '/espace-hote/profil.html';
-
-      } catch (ex) {
-        err.textContent = ex.message || 'Erreur réseau.';
-        show(err);
-      } finally {
-        btn.disabled = false; hide(sp);
+      body : {
+        "email": "",
+        "password": ""
       }
     });
-  })();
+
+    const data = await res.json().catch(()=> ({}));
+    
+    // Stockage token si renvoyé
+    if (data.token) {
+      const remember = document.getElementById('remember').checked;
+      (remember ? localStorage : sessionStorage).setItem('fh_token', data.token);
+    }
+
+    window.location.href = '/espace-hote/profil.html';
+});
+
+  // ====== Helper pour appels protégés avec token stocké 
+  async function authFetch(url, options = {}) {
+    const token = localStorage.getItem('fh_token') || sessionStorage.getItem('fh_token');
+    const headers = new Headers(options.headers || {});
+    if (token) headers.set('Authorization', 'Bearer ' + token);
+    return fetch(url, { ...options, headers });
+  }
+</script>
 </script>
 </body>
 </html>
