@@ -78,21 +78,16 @@
     .fh-stat .value { font-size: 2rem; font-weight: 800; color: var(--ink); margin-bottom: .25rem; }
     .fh-stat .hint { color: #6c757d; font-size: .9rem; }
 
-    /* responsive */
-    @media (max-width:576px){
-      .fh-search-seg:not(.fh-destination){ display:none; }
-      .fh-search-wrap{ padding:.4rem .6rem; border-radius:16px; }
-      .annonces-container .annonce-card { min-width:80%; max-width:90%; }
-      .prev-wrap, .next-wrap { display:none; } /* mobile: swipe/scroll natif */
-      .continent-desc { max-width:100%; }
-    }
   </style>
 </head>
 <body>
 
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
-      <a class="navbar-brand" href="index.html">FourmizHome</a>
+  <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+    <img src="assets/logo.png" alt="" height="52" class="d-inline-block align-text-top">
+    <span class="fs-3 lh-1">FourmizHome</span>
+  </a>
 
       <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
         <span class="navbar-toggler-icon"></span>

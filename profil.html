@@ -46,19 +46,16 @@
     footer a{color:#ffffffb3;text-decoration:none;}
     footer a:hover{color:#fff;}
 
-    @media (max-width:880px){
-      .annonce-row { grid-template-columns:64px 1fr; grid-template-areas:
-        "thumb title"
-        "thumb actions"; }
-      .actions { flex-direction:row; gap:.5rem; justify-self:end; }
-    }
   </style>
 </head>
 <body>
 
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background:#2B2B2B">
     <div class="container">
-      <a class="navbar-brand" href="index.html" style="color:#fff;font-weight:800">FourmizHome</a>
+        <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+          <img src="assets/logo.png" alt="" height="52" class="d-inline-block align-text-top">
+          <span class="fs-3 lh-1">FourmizHome</span>
+        </a>
       <div class="ms-auto"><a class="btn btn-accent rounded-pill px-3" href="index.html">Accueil</a></div>
     </div>
   </nav>

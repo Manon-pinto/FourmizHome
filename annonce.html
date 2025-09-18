@@ -29,11 +29,6 @@
     .fh-search-btn{width:44px;height:44px;border-radius:50%;border:0;background:#2f4560;color:#fff;display:grid;place-items:center}
     .fh-search-btn:hover{filter:brightness(1.05)}
     .fh-search-wrap:focus-within{box-shadow:0 0 0 3px rgba(197,160,71,.25);border-color:#c5a04766}
-    @media (max-width: 576px){
-      .fh-search-seg:not(.fh-destination){ display:none; }
-      .fh-destination{ flex:1 1 auto; padding:.75rem 1rem; }
-      .fh-search-btn{ border-radius:999px; width:auto; height:auto; padding:.6rem .9rem; display:inline-flex; align-items:center; gap:.45rem; background:var(--accent); color:var(--ink); font-weight:700; }
-    }
 
     /* Fiche logement */
     .hero-card{background:var(--card);border:1px solid var(--soft);border-radius:20px;overflow:hidden}
@@ -52,7 +47,10 @@
 
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
-      <a class="navbar-brand" href="index.html">FourmizHome</a>
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+        <img src="assets/logo.png" alt="" height="52" class="d-inline-block align-text-top">
+        <span class="fs-3 lh-1">FourmizHome</span>
+      </a>
 
       <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
         <span class="navbar-toggler-icon"></span>
