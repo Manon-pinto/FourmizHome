@@ -6,111 +6,46 @@
   <title>FourmizHome</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-
   <style>
     :root{
-      --bg:#FAF8F0;
-      --ink:#2B2B2B;
-      --title:#7B1E1E;
-      --accent:#C5A047; 
+      --bg:#FAF8F0; --ink:#2B2B2B; --title:#7B1E1E; --accent:#C5A047;
+      --soft:#E9DFC5; --card:#fff; --radius:16px;
     }
     body{background:var(--bg);color:var(--ink)}
     .navbar{background:var(--ink)}
     .navbar-brand{color:#fff !important;font-weight:800;letter-spacing:.3px}
     .nav-pills .nav-link{color:#ffffffcc;border-radius:999px}
-    .nav-pills .nav-link.active,
-    .btn-accent{background:var(--accent);color:var(--ink);border:none;font-weight:700}
+    .nav-pills .nav-link.active, .btn-accent{background:var(--accent);color:var(--ink);border:none;font-weight:700}
+    footer{background:var(--ink);color:#fff;} footer a{color:#ffffffb3;text-decoration:none;} footer a:hover{color:#fff;}
 
-    footer{background:var(--ink);color:#fff;}
-    footer a{color:#ffffffb3;text-decoration:none;}
-    footer a:hover{color:#fff;}
+    /* Barre de recherche */
+    .fh-search-wrap{background:#fff;border:1px solid #00000022;border-radius:999px;padding:6px;box-shadow:0 6px 22px rgba(0,0,0,.06)}
+    .fh-search-seg{padding:.6rem 1rem}
+    .fh-search-seg h6{margin:0;font-weight:800;color:var(--ink)}
+    .fh-search-seg small{color:#6c757d}
+    .fh-search-seg input{border:0;padding:0;background:transparent;color:var(--ink)}
+    .fh-search-seg input::placeholder{color:#a0a7ad}
+    .fh-divider{width:1px;background:#d9d9d9;align-self:stretch;margin:.3rem 0}
+    .fh-search-btn{width:44px;height:44px;border-radius:50%;border:0;background:#2f4560;color:#fff;display:grid;place-items:center}
+    .fh-search-btn:hover{filter:brightness(1.05)}
+    .fh-search-wrap:focus-within{box-shadow:0 0 0 3px rgba(197,160,71,.25);border-color:#c5a04766}
+    @media (max-width: 576px){
+      .fh-search-seg:not(.fh-destination){ display:none; }
+      .fh-destination{ flex:1 1 auto; padding:.75rem 1rem; }
+      .fh-search-btn{ border-radius:999px; width:auto; height:auto; padding:.6rem .9rem; display:inline-flex; align-items:center; gap:.45rem; background:var(--accent); color:var(--ink); font-weight:700; }
+    }
 
-.fh-search-wrap{
-  background:#fff;
-  border:1px solid #00000022;
-  border-radius:999px;
-  padding:6px;
-  box-shadow:0 6px 22px rgba(0,0,0,.06);
-}
-
-.fh-search-seg{
-  padding:.6rem 1rem;
-}
-
-.fh-search-seg h6{
-  margin:0;
-  font-weight:800;
-  color:var(--ink);
-}
-
-.fh-search-seg small{
-  color:#6c757d;
-}
-
-.fh-search-seg input{
-  border:0;
-  padding:0;
-  background:transparent;
-  color:var(--ink);
-}
-
-.fh-search-seg input::placeholder{
-  color:#a0a7ad;
-}
-
-.fh-divider{
-  width:1px;
-  background:#d9d9d9;
-  align-self:stretch;
-  margin:.3rem 0;
-}
-
-.fh-search-btn{
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  border:0;
-  background:#2f4560; 
-  color:#fff;
-  display:grid;
-  place-items:center;
-}
-
-.fh-search-btn:hover{
-  filter:brightness(1.05);
-}
-
-.fh-search-wrap:focus-within{
-  box-shadow:0 0 0 3px rgba(197,160,71,.25);
-  border-color:#c5a04766;
-}
-/*bar de recherhe responsive*/
-@media (max-width: 576px){
-  /* on garde uniquement le bloc Destination visible */
-  .fh-search-seg:not(.fh-destination){ display:none; }
-  .fh-destination{ flex:1 1 auto; padding:.75rem 1rem; }
-  .fh-destination h6{ font-size:1rem; }
-  .fh-destination input{ font-size:1rem; }
-
-  /* bouton devient une pilule avec icône + libellé */
-  .fh-search-btn{
-    border-radius:999px;
-    width:auto; height:auto;
-    padding:.6rem .9rem;
-    display:inline-flex; align-items:center; gap:.45rem;
-    background:var(--accent); color:var(--ink); font-weight:700;
-  }
-  .fh-search-btn i{ font-size:1.1rem; }
-  .fh-search-btn span{ display:inline; }
-
-  /* container plus « carte » */
-  .fh-search-wrap{
-    border-radius:16px;
-    padding:.4rem .4rem .4rem .6rem;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
-  }
-}
-
+    /* Fiche logement */
+    .hero-card{background:var(--card);border:1px solid var(--soft);border-radius:20px;overflow:hidden}
+    .chip{background:#eef2f6;border:1px solid #dbe3ec;border-radius:999px;padding:.35rem .7rem;font-weight:600;font-size:.9rem;color:#3a4a5c}
+    .host-badge{display:inline-flex;gap:.5rem;align-items:center;background:#fff;border:1px solid var(--soft);border-radius:999px;padding:.4rem .7rem}
+    .section-title{color:var(--title);font-weight:800}
+    .card-ghost{background:#fff;border:1px solid var(--soft);border-radius:18px}
+    .pill-input{border-radius:999px;border:1px solid #d4cab1;background:#fff}
+    .pill-input:focus{box-shadow:0 0 0 .2rem rgba(197,160,71,.18);border-color:#c5a047}
+    .pill-box{border:1px solid #d4cab1;border-radius:999px;padding:.55rem .9rem}
+    .price-tag{font-weight:800;color:#2f4560}
+    .mapbox{background:#fff;border:1px solid var(--soft);border-radius:18px;min-height:220px;display:flex;align-items:center;justify-content:center;color:#a3acb6}
   </style>
 </head>
 <body>
@@ -124,90 +59,214 @@
       </button>
 
       <div id="navMain" class="collapse navbar-collapse">
-        
         <form action="/recherche" method="get" class="container my-4">
-  <div class="fh-search-wrap d-flex flex-wrap align-items-center gap-2">
+          <div class="fh-search-wrap d-flex flex-wrap align-items-center gap-2">
+            <div class="fh-search-seg fh-destination flex-grow-1">
+              <h6>Destination</h6>
+              <input type="text" name="destination" class="form-control p-0" placeholder="Recherche une destination" aria-label="Destination" autocomplete="off">
+              <small class="d-none d-lg-inline">Ex. Paléarctique, Paris, Nid plexi…</small>
+            </div>
 
-    <div class="fh-search-seg flex-grow-1">
-      <h6>Destination</h6>
-      <input type="text" name="destination" class="form-control p-0" placeholder="Recherche une destination" aria-label="Destination" autocomplete="off">
-      <small class="d-none d-lg-inline">Ex. Paléarctique, Paris, Nid plexi…</small>
-    </div>
+            <div class="fh-divider d-none d-lg-block"></div>
+            <div class="fh-search-seg">
+              <h6>Arrivée</h6>
+              <input type="date" name="arrivee" class="form-control p-0" aria-label="Date d'arrivée">
+              <small class="d-none d-lg-inline">Quand ?</small>
+            </div>
 
-    <div class="fh-divider d-none d-lg-block"></div>
+            <div class="fh-divider d-none d-lg-block"></div>
+            <div class="fh-search-seg">
+              <h6>Départ</h6>
+              <input type="date" name="depart" class="form-control p-0" aria-label="Date de départ">
+              <small class="d-none d-lg-inline">Quand ?</small>
+            </div>
 
-    <div class="fh-search-seg">
-      <h6>Arrivée</h6>
-      <input type="date" name="arrivee" class="form-control p-0" aria-label="Date d'arrivée">
-      <small class="d-none d-lg-inline">Quand ?</small>
-    </div>
+            <div class="fh-divider d-none d-lg-block"></div>
 
-    <div class="fh-divider d-none d-lg-block"></div>
+            <!-- VOYAGEURS : dropdown avec champ numérique -->
+            <div class="fh-search-seg dropdown" data-bs-auto-close="outside">
+              <h6>Voyageurs</h6>
+              <button class="btn btn-link p-0 text-decoration-none text-secondary dropdown-toggle"
+                      type="button" data-bs-toggle="dropdown" aria-expanded="false" id="guestBtn">
+                <span id="guestLabel">1 voyageur</span>
+              </button>
+              <input type="hidden" name="voyageurs" id="guests" value="1">
 
-    <div class="fh-search-seg">
-      <h6>Départ</h6>
-      <input type="date" name="depart" class="form-control p-0" aria-label="Date de départ">
-      <small class="d-none d-lg-inline">Quand ?</small>
-    </div>
+              <div class="dropdown-menu p-3 shadow-lg border-0" style="min-width:260px">
+                <div class="mb-2">
+                  <div class="fw-semibold">Nombre de fourmis</div>
+                  <small class="text-muted">Colonnes / voyageurs</small>
+                </div>
 
-    <div class="fh-divider d-none d-lg-block"></div>
+                <div class="mb-2">
+                  <input type="number" class="form-control text-center" id="guestInput"
+                         min="1" max="50" step="1" value="1" inputmode="numeric"
+                         aria-label="Nombre de voyageurs">
+                </div>
 
-   <div class="fh-search-seg dropdown" data-bs-auto-close="outside">
-  <h6>Voyageurs</h6>
-  <button class="btn btn-link p-0 text-decoration-none text-secondary dropdown-toggle"
-          type="button" data-bs-toggle="dropdown" aria-expanded="false" id="guestBtn">
-    <span id="guestLabel">1 voyageur</span>
-  </button>
-  <input type="hidden" name="voyageurs" id="guests" value="1">
+                <div class="small text-muted">Actuel : <span id="count" class="fw-bold">1</span></div>
 
-  <div class="dropdown-menu p-3 shadow-lg border-0" style="min-width:260px">
-    <div class="d-flex justify-content-between align-items-center mb-2">
-      <div>
-        <div class="fw-semibold">Nombre de fourmis</div>
-        <small class="text-muted">Colonnes / voyageurs</small>
-      </div>
-      <div class="d-flex align-items-center gap-2">
-        <button class="btn btn-outline-secondary btn-sm" type="button" id="minus" aria-label="Diminuer">−</button>
-        <span id="count" class="mx-1 fw-bold" aria-live="polite">1</span>
-        <button class="btn btn-outline-secondary btn-sm" type="button" id="plus" aria-label="Augmenter">+</button>
-      </div>
-    </div>
+                <div class="d-grid gap-2 mt-2">
+                  <button type="button" class="btn btn-outline-secondary" id="closeGuests">Terminer</button>
+                </div>
+              </div>
+            </div>
 
-    <div class="d-grid gap-2">
-      <button type="button" class="btn btn-outline-secondary" id="closeGuests">Terminer</button>
-    </div>
-  </div>
-</div>
-
-
-    <div class="ms-auto me-1 my-1">
-      <button class="fh-search-btn" type="submit" aria-label="Rechercher">
-        <i class="bi bi-search"></i>
-      </button>
-    </div>
-  </div>
-</form>
+            <div class="ms-auto me-1 my-1">
+              <button class="fh-search-btn" type="submit" aria-label="Rechercher">
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>
 
         <a class="btn btn-accent rounded-pill px-3 ms-lg-2" href="#">Espace Hôte</a>
       </div>
     </div>
   </nav>
 
-  <main class="container py-5">
-    <h1 class="mb-3" style="color:var(--title)">Bienvenue sur FourmizHome</h1>
-    <p> </p>
+  <main class="container py-5" id="page">
+    <!-- HERO + titre -->
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <div class="hero-card">
+          <div id="photos" class="carousel slide" data-bs-ride="false">
+            <div class="carousel-inner" id="photosInner">
+              <div class="carousel-item active">
+                <div class="ratio ratio-16x9 d-flex align-items-center justify-content-center text-muted">
+                  <i class="bi bi-image fs-1 d-block mb-2"></i> Photo principale
+                </div>
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#photos" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Précédent</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#photos" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Suivant</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div class="small text-muted mb-1" id="label">Label goes here</div>
+        <h1 class="mb-1" id="title" style="color:var(--title);font-weight:800">Gîte à fourmis</h1>
+        <p class="text-secondary" id="subtitle">—</p>
+
+        <div class="d-flex flex-wrap align-items-center gap-2 my-3">
+          <span class="host-badge" id="host">
+            <i class="bi bi-person-circle"></i><span>Hôte : —</span>
+          </span>
+          <span class="chip" id="summary">— voyageurs • — chambre • — lit • — salle de bain</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description + Carte réservation -->
+    <div class="row g-4 mt-2">
+      <div class="col-lg-7">
+        <h3 class="section-title h4 mb-3">Description</h3>
+        <div id="description" class="text-secondary">—</div>
+      </div>
+
+      <div class="col-lg-5">
+        <div class="card-ghost p-3">
+          <div class="text-center pb-2">
+            <span class="price-tag"><span id="price">—</span> <small class="text-muted">par nuit</small></span>
+          </div>
+          <form id="bookForm">
+            <div class="row g-2">
+              <div class="col-6">
+                <div class="pill-box text-center">
+                  <div class="small fw-semibold">Arrivée</div>
+                  <input type="date" class="form-control pill-input mt-1" name="checkin" required>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="pill-box text-center">
+                  <div class="small fw-semibold">Départ</div>
+                  <input type="date" class="form-control pill-input mt-1" name="checkout" required>
+                </div>
+              </div>
+
+              <!-- VOYAGEURS dans le formulaire : reprend la valeur de la barre, pas de +/− -->
+              <div class="col-12">
+                <div class="pill-box text-center">
+                  <div class="small fw-semibold">Voyageurs</div>
+                  <input type="number" class="form-control text-center pill-input mt-1"
+                         name="guests" id="bfGuestInput" min="1" value="1" readonly>
+                  <div class="small text-muted mt-1">Modifiez ce nombre dans la barre de recherche.</div>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="pill-box text-center">
+                  <div class="small fw-semibold">Nom</div>
+                  <input class="form-control pill-input mt-1" name="last_name" placeholder="Ex: Jean" required>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="pill-box text-center">
+                  <div class="small fw-semibold">Prénom</div>
+                  <input class="form-control pill-input mt-1" name="first_name" placeholder="Ex: Patte" required>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="pill-box text-center">
+                  <div class="small fw-semibold">Email</div>
+                  <input type="email" class="form-control pill-input mt-1" name="email" placeholder="fourmi@nid.com" required>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="pill-box text-center">
+                  <div class="small fw-semibold">Tél</div>
+                  <input class="form-control pill-input mt-1" name="phone" placeholder="07…">
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="text-center">
+                  <div class="small fw-semibold mb-1">Votre Message</div>
+                  <textarea class="form-control" style="border-radius:12px;border:1px solid #d4cab1" rows="4" name="message" placeholder="Bonjour…"></textarea>
+                </div>
+              </div>
+
+              <div class="col-12 d-grid">
+                <button class="btn btn-accent rounded-pill" type="submit">Envoyer</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Localisation -->
+    <div class="row g-4 mt-3">
+      <div class="col-12">
+        <h3 class="section-title h5">Où se situe ce logement ?</h3>
+      </div>
+      <div class="col-12">
+        <div class="mapbox" id="mapbox">
+          <i class="bi bi-geo-alt fs-1 d-block mb-2"></i> Carte / aperçu
+        </div>
+        <div class="small mt-2">
+          <a id="mapLink" href="#" target="_blank" rel="noopener">Ouvrir dans Google Maps</a>
+        </div>
+      </div>
+    </div>
   </main>
 
   <footer class="mt-5 py-4">
     <div class="container d-flex flex-wrap justify-content-between align-items-center">
       <small>© 2025 FourmizHome, Inc.</small>
-
       <div class="d-flex gap-3 justify-content-center flex-grow-1">
         <a href="conditions.html">Conditions</a>
         <a href="confidentialite.html">Confidentialité</a>
         <a href="cookies.html">Cookies</a>
       </div>
-
       <div class="d-flex gap-3">
         <a href="https://facebook.com" target="_blank"><i class="bi bi-facebook fs-5"></i></a>
         <a href="https://instagram.com" target="_blank"><i class="bi bi-instagram fs-5"></i></a>
@@ -215,55 +274,128 @@
     </div>
   </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  // Gestion voyageurs (propre & sans fermeture involontaire)
-  const countEl     = document.getElementById('count');
-  const guestsInput = document.getElementById('guests');
-  const guestLabel  = document.getElementById('guestLabel');
-  const guestBtn    = document.getElementById('guestBtn');
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    /* ========= API CONFIG ========= */
+    const qs = new URLSearchParams(location.search);
+    const ID = qs.get('id') || '1';
 
-  let n = 1;
+    /* ========= HELPERS ========= */
+    const pick = (o, keys, d='') => { if(!o) return d; for(const k of keys){ if(o[k]!=null) return o[k]; } return d; };
+    const fmtPrice = (n, cur='EUR') => new Intl.NumberFormat('fr-FR',{style:'currency',currency:cur}).format(Number(n||0)).replace(/\u00A0/g,' ');
+    const clamp=(x,min,max)=>Math.max(min,Math.min(max,x));
+    const makeSummary = (d)=>{
+      const g=+pick(d,['guests','voyageurs','capacity'],0), c=+pick(d,['bedrooms','chambres'],0),
+            l=+pick(d,['beds','lits'],0), b=+pick(d,['bathrooms','sdb','salles_de_bain'],0);
+      return [ g?`${g} voyageur${g>1?'s':''}`:null, c?`${c} chambre${c>1?'s':''}`:null,
+               l?`${l} lit${l>1?'s':''}`:null, b?`${b} salle${b>1?'s':''} de bain`:null
+             ].filter(Boolean).join(' • ');
+    };
 
-  const libelle = (x) => x > 1 ? `${x} voyageurs` : `1 voyageur`;
-  const render  = () => {
-    countEl.textContent   = n;
-    guestsInput.value     = n;
-    guestLabel.textContent= libelle(n);
-  };
+    /* ========= RENDER ========= */
+    let MAX_GUESTS = 50; // sera fixé par l'API
 
-  // Bornes de sécurité
-  const clamp = (x, min, max) => Math.max(min, Math.min(max, x));
+    function renderPhotos(arr){
+      if(!Array.isArray(arr) || !arr.length) return;
+      const inner = document.getElementById('photosInner'); inner.innerHTML='';
+      arr.forEach((p, i)=>{
+        const url = p.url || p.src || p.image || p, alt = p.alt || 'Photo du logement';
+        const div = document.createElement('div'); div.className = `carousel-item ${i===0?'active':''}`;
+        div.innerHTML = `<img src="${url}" class="d-block w-100" alt="${alt}">`;
+        inner.appendChild(div);
+      });
+    }
 
-  document.getElementById('plus').addEventListener('click', (e) => {
-    n = clamp(n + 1, 1, 50);
-    render();
-    e.stopPropagation(); // évite tout effet dropdown
-  });
+    function renderLogement(d){
+      document.getElementById('label').textContent    = pick(d,['label','category_label','type'],'');
+      document.getElementById('title').textContent    = pick(d,['title','nom','name'],'Gîte à fourmis');
+      document.getElementById('subtitle').textContent = pick(d,['subtitle','short_description'],'');
+      document.getElementById('description').innerHTML= (pick(d,['description','long_description'],'')||'').replace(/\n/g,'<br>');
+      const hostName = pick((d.host||{}), ['name','nom','display_name'],'—');
+      document.getElementById('host').lastElementChild.textContent = `Hôte : ${hostName}`;
+      document.getElementById('summary').textContent = makeSummary(d);
+      const price = pick(d,['price','prix','prix_nuit'],0), cur = pick(d,['currency','devise'],'EUR');
+      document.getElementById('price').textContent = fmtPrice(price, cur);
+      const lat = pick(d.location||d,['lat','latitude'],null), lng = pick(d.location||d,['lng','longitude'],null), addr = pick(d.location||d,['address','adresse'],'');
+      document.getElementById('mapLink').href = (lat && lng) ? `https://www.google.com/maps?q=${lat},${lng}` : `https://www.google.com/maps/search/${encodeURIComponent(addr)}`;
 
-  document.getElementById('minus').addEventListener('click', (e) => {
-    n = clamp(n - 1, 1, 50);
-    render();
-    e.stopPropagation();
-  });
+      MAX_GUESTS = +pick(d,['guests_max','voyageurs','capacity','guests'],50) || 50;
+      syncBookingFromNavbar(); 
+    }
 
-  // Appliquer : met à jour le libellé et reste ouvert
-  document.getElementById('applyGuests').addEventListener('click', (e) => {
-    render();
-    // ne ferme pas la dropdown
-    e.stopPropagation();
-  });
+    /* ========= LOAD ========= */
+    async function init(){
+      try{
+        const res = await fetch(`/api/logements/${ID}`, {headers:{'Accept':'application/json'}});
+        if(!res.ok) throw new Error('Logement introuvable');
+        renderLogement(await res.json());
+      }catch(e){
+        console.error(e);
+        document.getElementById('title').textContent = 'Logement introuvable';
+      }
+      try{
+        const rp = await fetch(`/api/logements/${ID}/photos`, {headers:{'Accept':'application/json'}});
+        if(rp.ok) renderPhotos(await rp.json());
+      }catch(_){}
+    }
 
-  // Terminer : ferme proprement via l’API Bootstrap
-  document.getElementById('closeGuests').addEventListener('click', () => {
-    const dd = bootstrap.Dropdown.getOrCreateInstance(guestBtn);
-    dd.hide();
-  });
+    /* ========= NAVBAR VOYAGEURS (champ seul) ========= */
+    const guestBtn    = document.getElementById('guestBtn');
+    const guestLabel  = document.getElementById('guestLabel');
+    const guestsInput = document.getElementById('guests');     // hidden
+    const guestField  = document.getElementById('guestInput'); // number
+    const countEl     = document.getElementById('count');
 
-  // Par sécurité, tout clic à l'intérieur ne doit pas fermer (déjà géré par data-bs-auto-close="outside")
-  document.querySelector('.dropdown-menu').addEventListener('click', (e) => e.stopPropagation());
+    function renderNavbarGuests(){
+      let n = parseInt(guestField.value,10);
+      n = isNaN(n) ? 1 : clamp(n,1,50);
+      guestField.value = n;
+      guestsInput.value = n;
+      countEl.textContent = n;
+      guestLabel.textContent = n>1?`${n} voyageurs`:`1 voyageur`;
+      syncBookingFromNavbar();
+    }
+    guestField.addEventListener('input', renderNavbarGuests);
+    document.getElementById('closeGuests').addEventListener('click', ()=> {
+      bootstrap.Dropdown.getOrCreateInstance(guestBtn).hide();
+    });
+    document.querySelector('.dropdown-menu').addEventListener('click', (e)=> e.stopPropagation());
+    renderNavbarGuests();
 
-  render();
-</script>
+    /* ========= SYNCHRO NAV → FORMULAIRE ========= */
+    function syncBookingFromNavbar(){
+      const n = parseInt(guestsInput.value,10) || 1;
+      const bf = document.getElementById('bfGuestInput');
+      bf.value = clamp(n, 1, MAX_GUESTS);
+      bf.min = 1; bf.max = MAX_GUESTS;
+    }
+
+    /* ========= BOOKING ========= */
+    document.getElementById('bookForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const f = e.currentTarget;
+      const payload = {
+        logement_id: ID,
+        checkin:  f.checkin.value,
+        checkout: f.checkout.value,
+        guests:   +f.guests.value || 1,
+        first_name: f.first_name.value.trim(),
+        last_name:  f.last_name.value.trim(),
+        email:      f.email.value.trim(),
+        phone:      f.phone.value.trim(),
+        message:    f.message.value.trim()
+      };
+      const btn = f.querySelector('button[type="submit"]'); const old=btn.innerHTML;
+      btn.disabled=true; btn.innerHTML='<span class="spinner-border spinner-border-sm me-2"></span>Envoi…';
+      try{
+        const r = await fetch(`/api/reservations`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        if(!r.ok) throw new Error('Erreur serveur');
+        alert('Demande envoyée 🐜'); f.reset(); syncBookingFromNavbar();
+      }catch(err){ console.error(err); alert('Envoi impossible pour le moment.'); }
+      finally{ btn.disabled=false; btn.innerHTML=old; }
+    });
+
+    init();
+  </script>
 </body>
 </html>
