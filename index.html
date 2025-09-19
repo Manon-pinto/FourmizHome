@@ -1,444 +1,305 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>FourmizHome </title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>FourmizHome </title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-  <style>
-    :root{
-      --bg:#FAF8F0;
-      --ink:#2B2B2B;
-      --title:#7B1E1E;
-      --accent:#C5A047;
+<style>
+  :root{
+    --bg:#FAF8F0;
+    --ink:#2B2B2B;
+    --title:#7B1E1E;
+    --accent:#C5A047;
+  }
+  body{background:var(--bg);color:var(--ink)}
+  .navbar{background:var(--ink)}
+  .navbar-brand{color:#fff !important;font-weight:800;letter-spacing:.3px}
+  .nav-pills .nav-link{color:#ffffffcc;border-radius:999px}
+  .nav-pills .nav-link.active,
+  .btn-accent{background:var(--accent);color:var(--ink);border:none;font-weight:700}
+  footer{background:var(--ink);color:#fff;}
+  footer a{color:#ffffffb3;text-decoration:none;}
+  footer a:hover{color:#fff;}
+
+  /* search */
+  .fh-search-wrap{
+    background:#fff;
+    border:1px solid #00000022;
+    border-radius:999px;
+    padding:6px;
+    box-shadow:0 6px 22px rgba(0,0,0,.06);
+  }
+.fh-search-seg{ padding:.6rem 1rem; }
+.fh-search-seg h6{ margin:0; font-weight:800; color:var(--ink); }
+.fh-search-seg small{ color:#6c757d; }
+.fh-search-seg input{ border:0; padding:0; background:transparent; color:var(--ink); }
+.fh-search-seg input::placeholder{ color:#a0a7ad; }
+.fh-divider{ width:1px; background:#d9d9d9; align-self:stretch; margin:.3rem 0; }
+.fh-search-btn{ width:44px; height:44px; border-radius:50%; border:0; background:#2f4560; color:#fff; display:grid; place-items:center;}
+.fh-search-btn:hover{ filter:brightness(1.05); }
+.fh-search-wrap:focus-within{ box-shadow:0 0 0 3px rgba(197,160,71,.25); border-color:#c5a04766; }
+
+/* annonces (global) */
+.continent-block { 
+  margin-bottom: 3.5rem; 
+}
+.continent-head { 
+  margin-bottom: 1rem; 
+}
+.continent-title { 
+  color: var(--title); 
+  font-weight:800; 
+  font-size:1.25rem; 
+}
+.continent-desc { 
+  color:#6c757d; 
+  max-width:70ch; 
+  margin-top:.25rem; 
+}
+
+.annonces-wrap { 
+  position: relative; 
+  padding: .5rem 0; 
+}
+.annonces-container { 
+  display:flex; 
+  gap:1rem; 
+  overflow:hidden; 
+  scroll-behavior:smooth; 
+  padding: .5rem 0; 
+}
+.annonces-container .annonce-card {
+min-width:220px; 
+max-width:260px; 
+border-radius:14px; 
+background:#fff;
+border:1px solid #e6eaef; 
+padding:1rem; 
+box-shadow:0 6px 18px rgba(0,0,0,.04);
+display:flex; 
+flex-direction:column; 
+gap:.6rem; 
+text-decoration:none; 
+color:inherit;
+transition:transform .18s ease, box-shadow .18s ease;
+}
+.annonces-container .annonce-card:hover {
+transform: translateY(-6px);
+box-shadow: 0 12px 30px rgba(0,0,0,.08);
+}
+.annonce-thumb { 
+  width:100%; 
+  height:140px; 
+  border-radius:10px; 
+  object-fit:cover; 
+  background:#f1f5f8; 
+  display:block; 
+}
+.annonce-title { 
+  font-weight:700; 
+  font-size:1rem; 
+  color:var(--ink); 
+}
+.annonce-desc { 
+  color:#6c757d; 
+  font-size:.875rem; 
+  line-height:1.35; 
+  flex:1; 
+}
+
+.controles { 
+  position:absolute; 
+  top:50%; 
+  transform:translateY(-50%);
+  z-index:3; 
+}
+.controles .btn {
+   width:36px; 
+   height:36px; 
+   border-radius:50%; 
+   display:grid; 
+   place-items:center; 
+   padding:0; 
+  }
+.prev-wrap { 
+  left: -12px;
+ }
+.next-wrap { 
+  right: -12px; 
+}
+
+.continent-feedback { 
+  margin-top:.5rem; 
+  color:#6c757d; 
+}
+
+/* stats */
+.fh-stats-title { 
+  color: var(--title); 
+  letter-spacing: .2px; 
+}
+.fh-stat { 
+  background: #fff;
+   border: 1px solid #dfe3ea;
+    border-radius: 16px;
+     padding: 1.5rem 1rem;
+      box-shadow: 0 6px 18px rgba(0,0,0,.05); 
+      transition: transform .2s ease, box-shadow .2s ease; 
     }
-    body{background:var(--bg);color:var(--ink)}
-    .navbar{background:var(--ink)}
-    .navbar-brand{color:#fff !important;font-weight:800;letter-spacing:.3px}
-    .nav-pills .nav-link{color:#ffffffcc;border-radius:999px}
-    .nav-pills .nav-link.active,
-    .btn-accent{background:var(--accent);color:var(--ink);border:none;font-weight:700}
-    footer{background:var(--ink);color:#fff;}
-    footer a{color:#ffffffb3;text-decoration:none;}
-    footer a:hover{color:#fff;}
+.fh-stat:hover { 
+  transform: translateY(-4px); 
+  box-shadow: 0 10px 24px rgba(0,0,0,.08);
+ }
+.fh-stat .value { 
+  font-size: 2rem; 
+  font-weight: 800; 
+  color: var(--ink); 
+  margin-bottom: .25rem; 
+}
+.fh-stat .hint { 
+  color: #6c757d; 
+  font-size: .9rem; 
+}
 
-    /* search */
-    .fh-search-wrap{
-      background:#fff;
-      border:1px solid #00000022;
-      border-radius:999px;
-      padding:6px;
-      box-shadow:0 6px 22px rgba(0,0,0,.06);
-    }
-    .fh-search-seg{ padding:.6rem 1rem; }
-    .fh-search-seg h6{ margin:0; font-weight:800; color:var(--ink); }
-    .fh-search-seg small{ color:#6c757d; }
-    .fh-search-seg input{ border:0; padding:0; background:transparent; color:var(--ink); }
-    .fh-search-seg input::placeholder{ color:#a0a7ad; }
-    .fh-divider{ width:1px; background:#d9d9d9; align-self:stretch; margin:.3rem 0; }
-    .fh-search-btn{ width:44px; height:44px; border-radius:50%; border:0; background:#2f4560; color:#fff; display:grid; place-items:center;}
-    .fh-search-btn:hover{ filter:brightness(1.05); }
-    .fh-search-wrap:focus-within{ box-shadow:0 0 0 3px rgba(197,160,71,.25); border-color:#c5a04766; }
-
-    /* annonces (global) */
-    .continent-block { margin-bottom: 3.5rem; }
-    .continent-head { margin-bottom: 1rem; }
-    .continent-title { color: var(--title); font-weight:800; font-size:1.25rem; }
-    .continent-desc { color:#6c757d; max-width:70ch; margin-top:.25rem; }
-
-    .annonces-wrap { position: relative; padding: .5rem 0; }
-    .annonces-container { display:flex; gap:1rem; overflow:hidden; scroll-behavior:smooth; padding: .5rem 0; }
-    .annonces-container .annonce-card {
-      min-width:220px; max-width:260px; border-radius:14px; background:#fff;
-      border:1px solid #e6eaef; padding:1rem; box-shadow:0 6px 18px rgba(0,0,0,.04);
-      display:flex; flex-direction:column; gap:.6rem; text-decoration:none; color:inherit;
-      transition:transform .18s ease, box-shadow .18s ease;
-    }
-    .annonces-container .annonce-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 30px rgba(0,0,0,.08);
-    }
-    .annonce-thumb { width:100%; height:140px; border-radius:10px; object-fit:cover; background:#f1f5f8; display:block; }
-    .annonce-title { font-weight:700; font-size:1rem; color:var(--ink); }
-    .annonce-desc { color:#6c757d; font-size:.875rem; line-height:1.35; flex:1; }
-
-    .controles { position:absolute; top:50%; transform:translateY(-50%); z-index:3; }
-    .controles .btn { width:36px; height:36px; border-radius:50%; display:grid; place-items:center; padding:0; }
-    .prev-wrap { left: -12px; }
-    .next-wrap { right: -12px; }
-
-    .continent-feedback { margin-top:.5rem; color:#6c757d; }
-
-    /* stats */
-    .fh-stats-title { color: var(--title); letter-spacing: .2px; }
-    .fh-stat { background: #fff; border: 1px solid #dfe3ea; border-radius: 16px; padding: 1.5rem 1rem; box-shadow: 0 6px 18px rgba(0,0,0,.05); transition: transform .2s ease, box-shadow .2s ease; }
-    .fh-stat:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(0,0,0,.08); }
-    .fh-stat .value { font-size: 2rem; font-weight: 800; color: var(--ink); margin-bottom: .25rem; }
-    .fh-stat .hint { color: #6c757d; font-size: .9rem; }
-
-  </style>
+</style>
 </head>
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-    <div class="container">
-  <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
-    <img src="assets/logo.png" alt="" height="52" class="d-inline-block align-text-top">
-    <span class="fs-3 lh-1">FourmizHome</span>
-  </a>
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+  <div class="container">
+<a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+  <img src="assets/logo.png" alt="" height="52" class="d-inline-block align-text-top">
+  <span class="fs-3 lh-1">FourmizHome</span>
+</a>
 
-      <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-      <div id="navMain" class="collapse navbar-collapse">
-        <form action="/recherche" method="get" class="container my-4">
-          <div class="fh-search-wrap d-flex flex-wrap align-items-center gap-2">
-            <div class="fh-search-seg flex-grow-1 fh-destination">
-              <h6>Destination</h6>
-              <input type="text" name="destination" class="form-control p-0" placeholder="Recherche une destination" aria-label="Destination" autocomplete="off">
-              <small class="d-none d-lg-inline">Ex. Paléarctique, Paris, Nid plexi…</small>
-            </div>
+    <div id="navMain" class="collapse navbar-collapse">
+      <form action="/recherche" method="get" class="container my-4">
+        <div class="fh-search-wrap d-flex flex-wrap align-items-center gap-2">
+          <div class="fh-search-seg flex-grow-1 fh-destination">
+            <h6>Destination</h6>
+            <input type="text" name="destination" class="form-control p-0" placeholder="Recherche une destination" aria-label="Destination" autocomplete="off">
+            <small class="d-none d-lg-inline">Ex. Paléarctique, Paris, Nid plexi…</small>
+          </div>
 
-            <div class="fh-divider d-none d-lg-block"></div>
+          <div class="fh-divider d-none d-lg-block"></div>
 
-            <div class="fh-search-seg d-none d-sm-block">
-              <h6>Arrivée</h6>
-              <input type="date" name="arrivee" class="form-control p-0" aria-label="Date d'arrivée">
-              <small class="d-none d-lg-inline">Quand ?</small>
-            </div>
+          <div class="fh-search-seg d-none d-sm-block">
+            <h6>Arrivée</h6>
+            <input type="date" name="arrivee" class="form-control p-0" aria-label="Date d'arrivée">
+            <small class="d-none d-lg-inline">Quand ?</small>
+          </div>
 
-            <div class="fh-divider d-none d-lg-block"></div>
+          <div class="fh-divider d-none d-lg-block"></div>
 
-            <div class="fh-search-seg d-none d-sm-block">
-              <h6>Départ</h6>
-              <input type="date" name="depart" class="form-control p-0" aria-label="Date de départ">
-              <small class="d-none d-lg-inline">Quand ?</small>
-            </div>
+          <div class="fh-search-seg d-none d-sm-block">
+            <h6>Départ</h6>
+            <input type="date" name="depart" class="form-control p-0" aria-label="Date de départ">
+            <small class="d-none d-lg-inline">Quand ?</small>
+          </div>
 
-            <div class="fh-divider d-none d-lg-block"></div>
+          <div class="fh-divider d-none d-lg-block"></div>
 
-            <div class="fh-search-seg dropdown" data-bs-auto-close="outside">
-              <h6>Voyageurs</h6>
-              <button class="btn btn-link p-0 text-decoration-none text-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="guestBtn">
-                <span id="guestLabel">1 voyageur</span>
-              </button>
-              <input type="hidden" name="voyageurs" id="guests" value="1">
+          <div class="fh-search-seg dropdown" data-bs-auto-close="outside">
+            <h6>Voyageurs</h6>
+            <button class="btn btn-link p-0 text-decoration-none text-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="guestBtn">
+              <span id="guestLabel">1 voyageur</span>
+            </button>
+            <input type="hidden" name="voyageurs" id="guests" value="1">
 
-              <div class="dropdown-menu p-3 shadow-lg border-0" style="min-width:260px">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <div>
-                    <div class="fw-semibold">Nombre de fourmis</div>
-                    <small class="text-muted">Colonnes / voyageurs</small>
-                  </div>
-                  <div class="d-flex align-items-center gap-2">
-                    <button class="btn btn-outline-secondary btn-sm" type="button" id="minus" aria-label="Diminuer">−</button>
-                    <span id="count" class="mx-1 fw-bold" aria-live="polite">1</span>
-                    <button class="btn btn-outline-secondary btn-sm" type="button" id="plus" aria-label="Augmenter">+</button>
-                  </div>
+            <div class="dropdown-menu p-3 shadow-lg border-0" style="min-width:260px">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                  <div class="fw-semibold">Nombre de fourmis</div>
+                  <small class="text-muted">Colonnes / voyageurs</small>
                 </div>
-
-                <div class="d-grid gap-2">
-                  <button type="button" class="btn btn-outline-secondary" id="closeGuests">Terminer</button>
+                <div class="d-flex align-items-center gap-2">
+                  <button class="btn btn-outline-secondary btn-sm" type="button" id="minus" aria-label="Diminuer">−</button>
+                  <span id="count" class="mx-1 fw-bold" aria-live="polite">1</span>
+                  <button class="btn btn-outline-secondary btn-sm" type="button" id="plus" aria-label="Augmenter">+</button>
                 </div>
               </div>
-            </div>
 
-            <div class="ms-auto me-1 my-1">
-              <button class="fh-search-btn" type="submit" aria-label="Rechercher">
-                <i class="bi bi-search"></i>
-              </button>
+              <div class="d-grid gap-2">
+                <button type="button" class="btn btn-outline-secondary" id="closeGuests">Terminer</button>
+              </div>
             </div>
           </div>
-        </form>
 
-        <a class="btn btn-accent rounded-pill px-3 ms-lg-2" href="hote.html">Espace Hôte</a>
+          <div class="ms-auto me-1 my-1">
+            <button class="fh-search-btn" type="submit" aria-label="Rechercher">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <a class="btn btn-accent rounded-pill px-3 ms-lg-2" href="hote.html">Espace Hôte</a>
+    </div>
+  </div>
+</nav>
+
+<main class="container py-5">
+  <h1 class="mb-3" style="color:var(--title)">Bienvenue sur FourmizHome</h1>
+
+  <!-- conteneur global : JS génère une section par "groupe" (location / ecoZone / city) -->
+  <section id="continents-root" class="container my-5">
+    <div id="global-feedback" class="text-muted">Chargement des annonces…</div>
+  </section>
+
+  <!-- Stats (existant) -->
+  <section class="container my-5" aria-labelledby="stats-title">
+    <h2 id="stats-title" class="text-center fw-bold mb-4 fh-stats-title">Nos Stats</h2>
+    <div class="row g-3 g-md-4 justify-content-center">
+      <div class="col-12 col-md-4">
+        <div class="fh-stat text-center">
+          <div class="value">24+</div>
+          <small class="hint">Sites/produits à travers le pays</small>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div class="fh-stat text-center">
+          <div class="value">17M</div>
+          <small class="hint">Utilisateurs servis (et ça grimpe)</small>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div class="fh-stat text-center">
+          <div class="value">+95%</div>
+          <small class="hint">Satisfaction client</small>
+        </div>
       </div>
     </div>
-  </nav>
+  </section>
+</main>
 
-  <main class="container py-5">
-    <h1 class="mb-3" style="color:var(--title)">Bienvenue sur FourmizHome</h1>
+<footer class="mt-5 py-4">
+  <div class="container d-flex flex-wrap justify-content-between align-items-center">
+    <small>© 2025 FourmizHome, Inc.</small>
 
-    <!-- conteneur global : JS génère une section par "groupe" (location / ecoZone / city) -->
-    <section id="continents-root" class="container my-5">
-      <div id="global-feedback" class="text-muted">Chargement des annonces…</div>
-    </section>
-
-    <!-- Stats (existant) -->
-    <section class="container my-5" aria-labelledby="stats-title">
-      <h2 id="stats-title" class="text-center fw-bold mb-4 fh-stats-title">Nos Stats</h2>
-      <div class="row g-3 g-md-4 justify-content-center">
-        <div class="col-12 col-md-4">
-          <div class="fh-stat text-center">
-            <div class="value">24+</div>
-            <small class="hint">Sites/produits à travers le pays</small>
-          </div>
-        </div>
-
-        <div class="col-12 col-md-4">
-          <div class="fh-stat text-center">
-            <div class="value">17M</div>
-            <small class="hint">Utilisateurs servis (et ça grimpe)</small>
-          </div>
-        </div>
-
-        <div class="col-12 col-md-4">
-          <div class="fh-stat text-center">
-            <div class="value">+95%</div>
-            <small class="hint">Satisfaction client</small>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="mt-5 py-4">
-    <div class="container d-flex flex-wrap justify-content-between align-items-center">
-      <small>© 2025 FourmizHome, Inc.</small>
-
-      <div class="d-flex gap-3 justify-content-center flex-grow-1">
-        <a href="conditions.html">Conditions</a>
-        <a href="confidentialite.html">Confidentialité</a>
-        <a href="cookies.html">Cookies</a>
-      </div>
-
-      <div class="d-flex gap-3">
-        <a href="https://facebook.com" target="_blank"><i class="bi bi-facebook fs-5"></i></a>
-        <a href="https://instagram.com" target="_blank"><i class="bi bi-instagram fs-5"></i></a>
-      </div>
+    <div class="d-flex gap-3 justify-content-center flex-grow-1">
+      <a href="conditions.html">Conditions</a>
+      <a href="confidentialite.html">Confidentialité</a>
+      <a href="cookies.html">Cookies</a>
     </div>
-  </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="d-flex gap-3">
+      <a href="https://facebook.com" target="_blank"><i class="bi bi-facebook fs-5"></i></a>
+      <a href="https://instagram.com" target="_blank"><i class="bi bi-instagram fs-5"></i></a>
+    </div>
+  </div>
+</footer>
 
-  <script>
-  (async function(){
-    // ---------- CONFIG : adapte l'URL si besoin ----------
-    // Ton API fournie: /api/v1/ads/all (token free)
-    const API_BASE = 'http://localhost:300/api/v1/ads'; // <-- ADAPTE ICI si nécessaire
-    const TIMEOUT = 12000;
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src = "script-index.js"></script>
 
-    // ---------- UTIL ----------
-    const root = document.getElementById('continents-root');
-    const globalFeedback = document.getElementById('global-feedback');
-
-    const escapeHtml = (s) => {
-      if (s === 0) return '0';
-      if (!s) return '';
-      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-                      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-    };
-
-    const fetchWithTimeout = (url, opts={}) => {
-      const controller = new AbortController();
-      const id = setTimeout(()=> controller.abort(), TIMEOUT);
-      return fetch(url, {...opts, signal: controller.signal}).finally(()=> clearTimeout(id));
-    };
-
-    const itemsPerView = () => {
-      const w = window.innerWidth;
-      if (w < 576) return 1;
-      if (w < 768) return 2;
-      if (w < 992) return 3;
-      return 4;
-    };
-
-    // ---------- fetch all ads ----------
-    try {
-      globalFeedback.textContent = 'Chargement des annonces…';
-      const res = await fetchWithTimeout(API_BASE);
-      if (!res.ok) {
-        // debug : essaye lire le body pour savoir pourquoi
-        const txt = await res.text().catch(()=>'(no body)');
-        throw new Error(`API returned ${res.status} - ${txt}`);
-      }
-      const ads = await res.json();
-      if (!Array.isArray(ads) || ads.length === 0) {
-        globalFeedback.textContent = 'Aucune annonce trouvée.';
-        return;
-      }
-
-      // ---------- group ads by location/zone/city (flexible)
-      const groups = new Map();
-
-      const getGroupKey = (a) => {
-        // try several fields in order of likelihood
-        if (a.location && (a.location.id || a.location.name)) {
-          const id = a.location.id || a.location.name;
-          const name = a.location.name || a.location.label || String(id);
-          return { id: `loc-${id}`, name };
-        }
-        if (a.ecoZoneId) {
-          // if API provides ecoZone object use its name
-          const id = a.ecoZoneId;
-          const name = a.ecoZoneName || a.ecoZone?.name || `Zone ${id}`;
-          return { id: `eco-${id}`, name };
-        }
-        if (a.locationId) {
-          const id = a.locationId;
-          const name = a.locationName || `Lieu ${id}`;
-          return { id: `locid-${id}`, name };
-        }
-        if (a.city) {
-          return { id: `city-${a.city}`, name: a.city };
-        }
-        if (a.continent) {
-          return { id: `cont-${a.continent}`, name: a.continent };
-        }
-        // fallback: group "Toutes les annonces"
-        return { id: 'all', name: 'Toutes les annonces' };
-      };
-
-      ads.forEach(a => {
-        const { id, name } = getGroupKey(a);
-        if (!groups.has(id)) groups.set(id, { id, name, items: [] });
-        groups.get(id).items.push(a);
-      });
-
-      // ---------- render sections
-      root.innerHTML = '';
-      groups.forEach(group => {
-        const section = document.createElement('section');
-        section.className = 'continent-block';
-        // safe ids
-        const gid = group.id.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-_]/g,'');
-        section.innerHTML = `
-          <div class="continent-head">
-            <h3 class="continent-title">${escapeHtml(group.name)}</h3>
-            <p class="continent-desc">Annonces disponibles pour ${escapeHtml(group.name)}.</p>
-          </div>
-          <div class="annonces-wrap" id="wrap-${gid}">
-            <div class="controles prev-wrap" id="prevwrap-${gid}" style="display:none">
-              <button class="btn btn-outline-secondary" aria-label="Précédent"><i class="bi bi-chevron-left"></i></button>
-            </div>
-            <div class="controles next-wrap" id="nextwrap-${gid}" style="display:none">
-              <button class="btn btn-outline-secondary" aria-label="Suivant"><i class="bi bi-chevron-right"></i></button>
-            </div>
-            <div class="annonces-container" id="container-${gid}" aria-roledescription="carousel" aria-label="${escapeHtml(group.name)} annonces"></div>
-            <div class="continent-feedback" id="fb-${gid}"></div>
-          </div>
-        `;
-        root.appendChild(section);
-
-        // populate container
-        const container = section.querySelector(`#container-${gid}`);
-        const fb = section.querySelector(`#fb-${gid}`);
-        container.innerHTML = '';
-        group.items.forEach(a => {
-          const url = a.url || `/annonce/${encodeURIComponent(a.id)}`;
-          const img = a.image_url || a.imageUrl || a.image || '';
-          const title = a.title || a.name || 'Sans titre';
-          const desc = a.short_description || a.description || a.desc || '';
-          const item = document.createElement('a');
-          item.className = 'annonce-card';
-          item.href = url;
-          item.setAttribute('aria-label', title);
-          item.innerHTML = `
-            ${ img ? `<img class="annonce-thumb" src="${escapeHtml(img)}" alt="${escapeHtml(title)}" loading="lazy">` 
-                   : `<div class="annonce-thumb" role="img" aria-label="${escapeHtml(title)}" style="background-color:#f1f5f8;display:flex;align-items:center;justify-content:center;font-size:28px">🐜</div>` }
-            <div class="annonce-title">${escapeHtml(title)}</div>
-            <div class="annonce-desc">${escapeHtml(desc)}</div>
-          `;
-          if (url.startsWith('http')) item.target = '_blank';
-          container.appendChild(item);
-        });
-
-        setupCarouselFor(container, section.querySelector(`#prevwrap-${gid}`), section.querySelector(`#nextwrap-${gid}`));
-        fb.textContent = '';
-      });
-
-      globalFeedback.textContent = '';
-
-    } catch (err) {
-      console.error(err);
-      const msg = err?.message || 'Problème réseau.';
-      globalFeedback.textContent = `Erreur : ${msg}`;
-      root.innerHTML = `<div class="text-danger">Erreur : ${escapeHtml(msg)}</div>`;
-      return;
-    }
-
-    // ---------- CAROUSEL helper ----------
-    function setupCarouselFor(container, prevWrap, nextWrap){
-      const total = container.children.length;
-      if (total === 0) {
-        if (prevWrap) prevWrap.style.display = 'none';
-        if (nextWrap) nextWrap.style.display = 'none';
-        return;
-      }
-
-      let idx = 0;
-
-      const updateControls = () => {
-        const per = itemsPerView();
-        if (!prevWrap || !nextWrap) return;
-        if (total <= per) {
-          prevWrap.style.display = 'none';
-          nextWrap.style.display = 'none';
-        } else {
-          prevWrap.style.display = idx > 0 ? '' : 'none';
-          nextWrap.style.display = (idx + per) < total ? '' : 'none';
-        }
-      };
-
-      const scrollToIndex = (i) => {
-        const clamped = Math.max(0, Math.min(i, total - 1));
-        const item = container.children[clamped];
-        if (!item) return;
-        const rectItem = item.getBoundingClientRect();
-        const rectContainer = container.getBoundingClientRect();
-        const gap = parseInt(getComputedStyle(container).gap || 16);
-        const left = rectItem.left - rectContainer.left + container.scrollLeft - gap;
-        container.scrollTo({ left, behavior: 'smooth' });
-        idx = clamped;
-        updateControls();
-      };
-
-      // bind buttons (if present)
-      if (prevWrap) {
-        const btnPrev = prevWrap.querySelector('button');
-        if (btnPrev) btnPrev.addEventListener('click', () => {
-          const per = itemsPerView();
-          scrollToIndex(Math.max(0, idx - per));
-        });
-      }
-      if (nextWrap) {
-        const btnNext = nextWrap.querySelector('button');
-        if (btnNext) btnNext.addEventListener('click', () => {
-          const per = itemsPerView();
-          scrollToIndex(Math.min(Math.max(0, total - per), idx + per));
-        });
-      }
-
-      // scroll listener to update idx approx
-      container.addEventListener('scroll', () => {
-        const rectC = container.getBoundingClientRect();
-        for (let i=0;i<container.children.length;i++){
-          const c = container.children[i];
-          const r = c.getBoundingClientRect();
-          if (r.left >= rectC.left - 10) { idx = i; break; }
-        }
-        updateControls();
-      });
-
-      // recenter on resize
-      const onResize = () => setTimeout(() => scrollToIndex(idx), 120);
-      window.addEventListener('resize', onResize);
-
-      // initial state
-      updateControls();
-    }
-
-    // recalc carousels on resize
-    window.addEventListener('resize', () => {
-      setTimeout(() => {
-        document.querySelectorAll('.annonces-container').forEach((c) => c.dispatchEvent(new Event('scroll')));
-      }, 160);
-    });
-
-  })();
-  </script>
 </body>
 </html>

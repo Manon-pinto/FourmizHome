@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>FourmizHome</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style src="style-creation.css"></style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+          <img src="assets/logo.png" alt="" height="52" class="d-inline-block align-text-top">
+          <span class="fs-3 lh-1">FourmizHome</span>
+        </a>
+      <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="container py-5" id="app">
+    <header class="mb-4 text-center">
+      <div class="text-uppercase fw-semibold" style="opacity:.7">Création du logement</div>
+      <h1 class="mb-0" style="color:var(--title);font-weight:800">Idéal</h1>
+    </header>
+
+<form id="housingForm" class="row g-4" action="" method="post" enctype="multipart/form-data">
+  <div class="col-12">
+    <label class="form-label">Titre</label>
+    <input class="form-control" name="title" placeholder="Ex. Suite Royale de la Reine" required>
+  </div>
+
+  <div class="col-12">
+    <label class="form-label">Description</label>
+    <textarea class="form-control" name="description" rows="4" placeholder="Décris ton nid idéal pour tes invité·e·s fourmis…"></textarea>
+  </div>
+
+  <div class="col-md-6">
+    <label class="form-label">Prix (par nuit)</label>
+    <div class="input-group">
+      <span class="input-group-text pill">€</span>
+      <input type="number" step="0.01" min="0" class="form-control" name="price" placeholder="50.00" required>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <label class="form-label">Photos</label>
+    <input type="file" name="image" class="form-control">
+  </div>
+
+  <div class="col-12">
+    <label class="form-label d-flex align-items-center gap-2">
+      Détails
+      <span class="badge badge-cat rounded-pill">Fourmilière & écozone</span>
+    </label>
+
+    <div class="bien-types" id="bienTypesList" aria-live="polite">
+      <strong>Type de bien :</strong><br>
+      <label><input type="radio" name="roomTypeId" value="1" required> Fourmilière en plâtre</label><br>
+      <label><input type="radio" name="roomTypeId" value="2"> Fourmilière en plexiglas</label><br>
+      <label><input type="radio" name="roomTypeId" value="3"> Tube à essai</label><br>
+      <label><input type="radio" name="roomTypeId" value="4"> Aire de chasse</label><br>
+      <label><input type="radio" name="roomTypeId" value="5"> Couvercle ventilé</label><br>
+      <label><input type="radio" name="roomTypeId" value="6"> Sable/terre pour substrat</label><br>
+      <label><input type="radio" name="roomTypeId" value="7"> Abreuvoir</label><br>
+      <label><input type="radio" name="roomTypeId" value="8"> Nourrisseur liquide</label><br>
+      <label><input type="radio" name="roomTypeId" value="9"> Nourrisseur solide</label><br>
+      <label><input type="radio" name="roomTypeId" value="10"> Thermomètre/Hygromètre</label><br>
+      <label><input type="radio" name="roomTypeId" value="11"> Chauffage (câble ou tapis)</label><br>
+      <label><input type="radio" name="roomTypeId" value="12"> Décorations naturelles</label><br>
+      <label><input type="radio" name="roomTypeId" value="13"> Pinces de manipulation</label><br>
+      <label><input type="radio" name="roomTypeId" value="14"> Boîte de transport</label>
+    </div>
+
+    <div class="ecozones mt-3" id="ecozonesList" aria-live="polite">
+      <strong>Zone écologique :</strong><br>
+      <label><input type="radio" name="ecoZoneId" value="1" required> Afrotropicale</label><br>
+      <label><input type="radio" name="ecoZoneId" value="2"> Australienne</label><br>
+      <label><input type="radio" name="ecoZoneId" value="3"> Indomalaise</label><br>
+      <label><input type="radio" name="ecoZoneId" value="4"> Paléarctique</label><br>
+      <label><input type="radio" name="ecoZoneId" value="5"> Néarctique</label><br>
+      <label><input type="radio" name="ecoZoneId" value="6"> Néotropicale</label><br>
+      <label><input type="radio" name="ecoZoneId" value="7"> Océanienne</label><br>
+      <label><input type="radio" name="ecoZoneId" value="8"> Antarctique</label>
+    </div>
+
+    <div class="small mt-2" style="opacity:.7">
+      Astuce : tu ne peux choisir qu’un seul type de bien et une seule zone écologique.
+    </div>
+  </div>
+
+  <div class="col-12 text-center">
+    <button class="btn btn-save" type="submit">
+      <i class="bi bi-check2-circle me-1"></i> Valider
+    </button>
+  </div>
+</form>
+
+  </main>
+
+  <footer class="mt-5 py-4">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center">
+      <small>© 2025 FourmizHome, Inc.</small>
+      <div class="d-flex gap-3 justify-content-center flex-grow-1">
+        <a href="conditions.html">Conditions</a>
+        <a href="confidentialite.html">Confidentialité</a>
+        <a href="cookies.html">Cookies</a>
+      </div>
+      <div class="d-flex gap-3">
+        <a href="https://facebook.com" target="_blank"><i class="bi bi-facebook fs-5"></i></a>
+        <a href="https://instagram.com" target="_blank"><i class="bi bi-instagram fs-5"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script-creation.js"></script>
+</body>
+</html>

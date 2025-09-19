@@ -172,7 +172,6 @@
         <p class="welcome">Bienvenue,</p>
         <h1>Cher Hôte</h1>
 
-        <!-- SMILEY SVG wrapper -->
         <div class="smiley-wrap" role="img" aria-label="Avatar souriant" id="avatarWrap">
             <svg id="avatarSvg" width="90" height="90" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"
                  aria-hidden="true">
@@ -184,19 +183,20 @@
             </svg>
         </div>
 
-        <!-- now shows first name + last name -->
+
         <div class="host-name" id="hostName">Chargement...</div>
     </header>
+      <div id="btn-accent">
+        <a class="btn rounded-pill px-3 ms-lg-auto" href="creation.html">Crée une annonce</a>
+      </div>
 
-    <!-- Vos annonces -->
     <section class="annonces-card" aria-labelledby="annonces-title">
         <h2 id="annonces-title" class="text-center fw-bold mb-3" style="color:var(--accent)">Vos Annonces</h2>
-
         <div id="annonces-feedback" class="text-center text-muted mb-2">Chargement des annonces…</div>
         <div id="annoncesList" class="list-group"></div>
     </section>
 
-    <!-- Modal édition (idem) -->
+
     <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -367,8 +367,8 @@
             row.className = 'annonce-row';
             row.dataset.id = a.id;
 
-            const thumbHtml = a.image_url
-                ? `<div class="thumb" style="background-image:url('${escapeHtml(a.image_url)}')"></div>`
+            const thumbHtml = a.imageUrl
+                ? `<div class="thumb" style="background-image:url('${escapeHtml(a.imageUrl)}.png')"></div>`
                 : `<div class="thumb">📷</div>`;
 
             row.innerHTML = `
